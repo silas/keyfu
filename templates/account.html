@@ -1,0 +1,16 @@
+{{template "header.html" .}}
+
+<form class="account" method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<dl>
+		<dt><label for="email">Email</label></dt>
+			<dd><input id="email" name="email" type="text" value="{{.email}}"></dd>
+		<dt><label for="current-password">Current Password</label></dt>
+			<dd><input id="current-password" name="current-password" type="password"></dd>
+		<dt><label class="normal" for="new-password">New Password</label></dt>
+			<dd><input id="new-password" name="new-password" type="password"></dd>
+	</dl>
+	<div class="action"><input type="submit" value="Update"></div>
+</form>
+
+{{template "footer.html" .}}

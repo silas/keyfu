@@ -1,0 +1,17 @@
+{{template "header.html" .}}
+
+<form class="signup" method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<dl>
+		<dt><label for="email">Email</label></dt>
+			<dd><input id="email" name="email" tabindex="2" type="text" value="{{.email}}"></dd>
+		<dt><label for="password">Password</label></dt>
+			<dd><input id="password" name="password" tabindex="3" type="password"></dd>
+	</dl>
+	<div class="action">
+		<p>By clicking on 'I accept' below you are agreeing to the <a href="/terms" target="_terms">Terms of Service</a> and the <a href="/privacy" target="_privacy">Privacy Policy</a>.</p>
+	<input tabindex="4" type="submit" value="I accept. Create my account.">
+	</div>
+</form>
+
+{{template "footer.html" .}}

@@ -1,0 +1,18 @@
+{{template "header.html" .}}
+
+<table class="list">
+	<tr>
+		<th class="key">Key</th>
+		<th class="type">Type</th>
+		<th class="body">Body</th>
+	</tr>
+{{range .keywords}}
+	<tr>
+		<td class="key"><a href="/edit?q={{.Key}}">{{.Key}}</a></td>
+		<td class="type">{{.Type}}</td>
+		<td class="body">{{.Body}}</td>
+	</tr>
+{{end}}
+</table>
+
+{{template "footer.html" .}}

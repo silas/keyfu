@@ -1,0 +1,13 @@
+{{template "header.html" .}}
+
+<form class="account" method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<input name="token" type="hidden" value="{{.token}}">
+	<dl>
+		<dt><label for="new-password">New Password</label></dt>
+			<dd><input id="new-password" name="new-password" type="password"></dd>
+	</dl>
+	<div class="action"><input type="submit" value="Change password"></div>
+</form>
+
+{{template "footer.html" .}}

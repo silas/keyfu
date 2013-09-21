@@ -1,0 +1,12 @@
+{{template "header.html" .}}
+
+<form class="recover" method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<dl>
+		<dt><label for="email">Email</label></dt>
+			<dd><input id="email" name="email" tabindex="1" type="text" value="{{.email}}"></dd>
+	</dl>
+	<div class="action"><input tabindex="2" type="submit" value="Send reset password email"></div>
+</form>
+
+{{template "footer.html" .}}

@@ -1,0 +1,3 @@
+py-bcrypt
+pymongo
+selenium

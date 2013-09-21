@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>{{if .title}}{{.title}} - {{end}}KeyFu</title>
+		<link href="{{.css}}" rel="stylesheet" type="text/css">
+		<link href="{{.opensearch}}" rel="search" title="KeyFu" type="application/opensearchdescription+xml">
+	</head>
+	<body{{if .bodyid}} id="{{.bodyid}}"{{end}}>
+		<div id="container">
+			<div id="header">
+				<ul class="nav util">
+					<li><a href="/help">Help</a></li>
+				{{if .uid}}
+					<li><a href="/account">Account</a></li>
+					<li><a href="/logout">Logout</a></li>
+				{{else}}
+					<li><a href="/signup">Sign up</a></li>
+					<li><a href="/login">Login</a></li>
+				{{end}}
+				</ul>
+				<a href="/"><img alt="KeyFu" id="logo" src="{{.logo}}" width="178" height="70"></a>
+				{{if .uid}}
+				<ul class="nav main">
+					<li><a href="/list">My Keywords</a></li>
+					<li><a href="/add">Add New</a></li>
+				</ul>
+				{{end}}
+			</div>
+			<div id="content">
+				{{if .bodytitle}}<h1>{{.bodytitle}}</h1>{{else}}{{if .title}}<h1>{{.title}}</h1>{{end}}{{end}}
+				{{if .error}}<div class="error notice"><a class="right small" href="#" onclick="$(this).parent().hide();return false">hide</a>{{.error}}</div>{{end}}
+				{{if .success}}<div class="success notice"><a class="right small" href="#" onclick="$(this).parent().hide();return false">hide</a>{{.success}}</div>{{end}}

@@ -1,0 +1,89 @@
+{{template "header.html" .}}
+
+<p><a href="/help">&laquo; Back to Help</a></p>
+
+<h2>1). Setup Browser</h2>
+
+<p>The first step is to change your browser's default search engine to KeyFu.</p>
+
+<h3>Chrome or Chromium</h3>
+
+<ol>
+	<li>Click the <strong>Tool</strong> menu <img alt="Tool Menu" src="http://www.google.com/help/hc/images/chrome_toolsmenu.gif"> in the browser</li>
+	<li>Select <strong>Options</strong> (or Preferences)</li>
+	<li>Click the <strong>Basics</strong> tab</li>
+	<li>Click the <strong>Manage Search Engines...</strong> button</li>
+	<li>Scroll down until you find <strong>KeyFu</strong>, hover over it and click <strong>Make Default</strong></li>
+</ol>
+
+<h3>Firefox</h3>
+
+<ol>
+	<li>Click the drop-down to the left of the search box (usually the Google icon)</li>
+	<li>Select <strong>Add "KeyFu"</strong></li>
+</ol>
+
+<h2>2). Add Keyword</h2>
+
+<ol>
+	<li>Open a new tab</li>
+	<li>Use your browser's search shortcut to activate a search</li>
+	<ul>
+		<li>Linux/Windows: <strong>Ctrl+K</strong></li>
+		<li>Mac (Firefox): <strong>&#8984;+K</strong></li>
+		<li>Mac (Chrome/Chromium): <strong>&#8984;-Option-F</strong></li>
+	</ul>
+	<li>Type <strong>:add facebook</strong> and hit <strong>Enter</strong> (you can omit the second argument to see a browsable list of all keywords)</li>
+	<li>Type <strong>fb</strong> into the textbox and hit <strong>Enter</strong></li>
+	<li>Hit <strong>Ctrl+Enter</strong> to save (or click the Save button)</li>
+</ol>
+
+<h2>3). Use Keyword</h2>
+
+<ol>
+	<li>Activate the search bar (see above for shortcuts)</li>
+	<li>Type <strong>fb</strong> and hit <strong>Enter</strong></li>
+	<li>Notice you were redirected to <code>www.facebook.com</code></li>
+	<li>Activate the search bar again</li>
+	<li>Type <strong>fb new york city</strong> and hit <strong>Enter</strong></li>
+	<li>Notice you were redirected to <code>www.facebook.com/search.php?q=new+york+city</code>
+</ol>
+
+<p>This process of activating a browser's search functionality, entering a keyword and hitting the Enter key is known as <a href="/help/glossary#run">running a keyword</a> (ex: <code>run fb</code> means activate search, type <code>fb</code> and hit the Enter key).</p>
+
+<h2>4). Create a Custom Keyword</h2>
+
+<p>Now lets say we want a keyword for the <a href="http://groups.google.com/group/nodejs">nodejs mailing list</a>, but it doesn't exist when we search for it with the <code>:add</code> keyword. To solve this KeyFu allows you to create custom keywords.</p>
+
+<ol>
+	<li>Run <strong>:edit nml</strong> (node mailing list)</li>
+	<li>Notice the three input fields, the first is the <a href="/help/glossary#key">key</a> (nml), the second is the <a href="/help/glossary#type">type</a> (we'll just use <a href="/help/glossary#link-type">link</a> for now) and the third is the <a href="/help/glossary#body">body</a> (which is empty)</li>
+	<li>The <a href="/help/glossary#link-type">link</a> type supports a very basic syntax, the first line is executed if a keyword is run without additional text, otherwise the second line is run. With that in mind, type <strong>http://groups.google.com/group/nodejs</strong> on the first line.</li>
+	<li>Next open <a href="http://groups.google.com/group/nodejs" target="_new">http://groups.google.com/group/nodejs</a> in a new window</li>
+	<li>Type <strong>TEST</strong> into the search box and click the <a href="http://groups.google.com/group/nodejs/search?group=nodejs&q=TEST&qt_g=Search+this+group" target="_new">Search this group</a> button</li>
+	<li>Copy and paste the resulting URL onto the second line and replace all instances of <code>TEST</code> with <strong>%s</strong></li>
+	<li>Hit <strong>Ctrl+Enter</strong> (or click the Save button)</li>
+	<li>Now run <strong>nml</strong> and <strong>nml meetup</strong></li>
+</ol>
+
+<p>We've now created a custom keyword that we can access via the <code>nml</code> key, without additional text this keyword will redirect to the nodejs mailing list frontpage and with text it will search the nodejs mailing list.</p>
+
+<p>If we had only entered one url (either the direct link or the search link), KeyFu would try to be smart about doing the right thing.</p>
+
+<h2>5). Manage Keywords</h2>
+
+<ol>
+	<li>Run <strong>:list</strong> to view all your keywords</li>
+	<li>Run <strong>:list f</strong> to view all your keywords starting with the letter <code>f</code></li>
+	<li>Run <strong>:rename fb facebook</strong> to rename the <code>fb</code> keyword to <code>facebook</code></li>
+	<li>Run <strong>:delete facebook</strong> to delete the <code>facebook</code> keyword</li>
+</ol>
+
+<h2>6). Getting More Information</h2>
+
+<ol>
+	<li>Run <strong>:cheatsheet</strong> or <strong>:cs</strong> for a list of commands</li>
+	<li>Visit the <a href="/help">help section</a></li>
+</ol>
+
+{{template "footer.html" .}}

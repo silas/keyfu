@@ -1,0 +1,27 @@
+{{template "header.html" .}}
+
+<div id="edit">
+	<form method="post" name="form">
+		<input name="csrf" type="hidden" value="{{.csrf}}">
+		<div class="control">
+			<ul class="nav right util">
+				{{if .oldkey}}<li><a href="/delete?q={{.oldkey}}" tabindex="5">Delete</a></li>{{end}}
+				<li><input name="save" tabindex="4" type="submit" value="Save"></li>
+			</ul>
+			<input name="oldkey" type="hidden" value="{{.oldkey}}">
+			<ul class="nav">
+				<li><input name="newkey" tabindex="1" value="{{.newkey}}"></li>
+				<li>
+					<select name="type" tabindex="2">
+						<option value="alias"{{if .alias}} selected="selected"{{end}}>Alias</option>
+						<option value="builtin"{{if .builtin}} selected="selected"{{end}}>Builtin</option>
+						<option value="link"{{if .link}} selected="selected"{{end}}>Link</option>
+					</select>
+				</li>
+			</ul>
+		</div>
+		<div><textarea class="full" name="body" tabindex="3">{{.body}}</textarea></div>
+	</form>
+</div>
+
+{{template "footer.html" .}}

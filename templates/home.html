@@ -1,0 +1,33 @@
+{{template "header.html" .}}
+
+{{template "runbar.html" .}}
+
+{{if not .uid}}
+
+<div class="right" id="whats-keyfu">
+	<h2>What's KeyFu?</h2>
+	<p>KeyFu is a site that allows you to attach keywords to common tasks and navigate the web faster.</p>
+</div>
+
+<div class="right" id="getting-started">
+	<h2>Getting Started</h2>
+	<p><a href="/signup">Sign up</a> and read the <a href="/help/getting-started">getting started guide</a>.</p>
+</div>
+
+<div class="right" id="privacy">
+	<h2>Privacy</h2>
+	<p>We don't log your search queries, see our <a href="/privacy">Privacy Policy</a>.</p>
+</div>
+
+<div id="quick-overview">
+	<h2>Add Keywords</h2>
+	<div class="tweak"><img alt="Add the keyword 'ab' for Amazon Books" src="http://img1.keyfu.net/com.keyfu.homepage.add.gif" width="500" height="87"></div>
+	<h2>Search Using KeyFu</h2>
+	<div><img alt="Type 'ab lord of the rings' into your browser search" src="http://img1.keyfu.net/com.keyfu.homepage.search.gif" width="500" height="60"></div>
+	<h2>Get Results Faster</h2>
+	<div><img alt="Get your answers directly from Amazon Books search results" src="http://img1.keyfu.net/com.keyfu.homepage.result.gif" width="500" height="258"></div>
+</div>
+
+{{end}}
+
+{{template "footer.html" .}}

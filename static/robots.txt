@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /account
+Disallow: /add
+Disallow: /delete
+Disallow: /edit
+Disallow: /list
+Disallow: /login
+Disallow: /logout
+Disallow: /rename
+Disallow: /run

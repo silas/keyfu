@@ -1,0 +1,21 @@
+{{template "header.html" .}}
+
+<form method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<p>Rename
+	{{if .srckeyerror}}
+	<input name="srckey" type="text" value="{{.srckey}}">
+	{{else}}
+	<code>{{.srckey}}</code><input name="srckey" tabindex="1" type="hidden" value="{{.srckey}}">
+	{{end}}
+	to
+	{{if .dstkeyerror}}
+	<input name="dstkey" type="text" value="{{.dstkey}}">.
+	{{else}}
+	<code>{{.dstkey}}</code><input name="dstkey" tabindex="2" type="hidden" value="{{.dstkey}}">.
+	{{end}}
+	</p>
+	<p><input name="rename" tabindex="3" type="submit" value="Rename"></p>
+</form>
+
+{{template "footer.html" .}}

@@ -1,0 +1,3 @@
+runtime: python27
+
+test: python test_*.py

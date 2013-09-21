@@ -1,0 +1,21 @@
+{{template "header.html" .}}
+
+<form class="login" method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	<input name="url" type="hidden" value="{{.url}}">
+	<dl>
+		<dt><label for="email">Email</label></dt>
+		<dd><input id="email" name="email" tabindex="1" type="text" value="{{.email}}"></dd>
+		<dt><label for="password">Password</label></dt>
+		<dd><input id="password" name="password" tabindex="2" type="password"></dd>
+	</dl>
+	<div class="action">
+		<input tabindex="3" type="submit" value="Login">
+		<label class="persist" for="persist">
+		<input {{if .persist}}checked="checked" {{end}}id="persist" name="persist" tabindex="4" type="checkbox" value="yes"><span>Stay logged in</span>
+		</label>
+		<p><a href="/recover">Forgot your password?</a></p>
+	</div>
+</form>
+
+{{template "footer.html" .}}

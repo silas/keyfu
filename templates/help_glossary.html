@@ -1,0 +1,28 @@
+{{template "header.html" .}}
+
+<p><a href="/help">&laquo; Back to Help</a></p>
+
+<p>KeyFu's terminology might be different than yours, use the following definitions to figure out exactly what we're talking about.</p>
+
+<dl class="glossary">
+	<dt><a href="#alias-type" name="alias-type">alias type</a></dt>
+		<dd>A keyword type that links one keyword to another (linked keyword can't be an alias).</dd>
+	<dt><a href="#body" name="body">body</a></dt>
+		<dd>The logic of a keyword.</dd>
+	<dt><a href="#builtin-type" name="builtin-type">builtin type</a></dt>
+		<dd>A keyword type that provides managed or advanced functionality.</dd>
+	<dt><a href="#catalog" name="catalog">catalog</a></dt>
+		<dd>List of builtin keywords (accessed via the <code>:add</code> keyword).</dd>
+	<dt><a href="#link-type" name="link-type">link type</a></dt>
+		<dd>A keyword type that redirects to specified URLs depending on query parameters.</dd>
+	<dt><a href="#key" name="key">key</a></dt>
+		<dd>Unique text used to access a keyword.</dd>
+	<dt><a href="#keyword" name="keyword">keyword</a></dt>
+		<dd>Functionality which can be accessed by prefixing a query with a key.</dd>
+	<dt><a href="#run" name="run">run</a></dt>
+		<dd>Is the process of activating a browser's search functionality, entering a keyword and hitting the enter key.</dd>
+	<dt><a href="#type" name="type">type</a></dt>
+		<dd>Determines how the <a href="#body">body</a> of a keyword is executed, examples include <a href="#builtin-type">builtin</a> and <a href="#link-type">link</a>.</dd>
+</dl>
+
+{{template "footer.html" .}}

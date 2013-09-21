@@ -1,0 +1,14 @@
+{{template "header.html" .}}
+
+<form method="post" name="form">
+	<input name="csrf" type="hidden" value="{{.csrf}}">
+	{{if .error}}
+	<p>Delete <input name="key" tabindex="1" value="{{.key}}"> keyword?</p>
+	{{else}}
+	<input name="key" type="hidden" value="{{.key}}">
+	<p>Delete <code>{{.key}}</code> keyword?</p>
+	{{end}}
+	<p><input name="delete" tabindex="2" type="submit" value="Delete"></p>
+</form>
+
+{{template "footer.html" .}}

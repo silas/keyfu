@@ -1,0 +1,28 @@
+{{template "header.html" .}}
+
+<table class="catalog">
+{{range $c := .catalog}}
+	<tr>
+		<td class="icon">
+			<img src="{{$c.Root}}" alt="{{$c.Name}}" width="20" height="20">
+		</td>
+		<td class="name">{{$c.Name}}</td>
+		<td class="keyword">
+			<form action="/edit" method="get">
+				<input name="body" type="hidden" value="{{$c.Value}}">
+				<input name="type" type="hidden" value="builtin">
+				<ul class="nav right">
+					<li><input class="key" name="key" type="text" value=""></li>
+					<li><input type="submit" value="Add"></li>
+				</ul>
+			</form>
+		</td>
+	</tr>
+{{else}}
+	<tr>
+		<td>No builtin keywords found.</td>
+	</tr>
+{{end}}
+</table>
+
+{{template "footer.html" .}}

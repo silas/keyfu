@@ -1,0 +1,1554 @@
+{
+    "co.uk.dailymail": {
+        "root": "co.uk.dailymail",
+        "name": "The Daily Mail",
+        "tags": [
+            "dailymail",
+            "news",
+            "tabloid"
+        ]
+    },
+    "co.uk.guardian": {
+        "root": "co.uk.guardian",
+        "name": "The Guardian",
+        "tags": [
+            "guardian",
+            "news"
+        ]
+    },
+    "co.uk.telegraph": {
+        "root": "co.uk.telegraph",
+        "name": "Telegraph.co.uk",
+        "tags": [
+            "telegraph",
+            "news"
+        ]
+    },
+    "co.uk.thesun": {
+        "root": "co.uk.thesun",
+        "name": "The Sun",
+        "tags": [
+            "news",
+            "tabloid",
+            "thesun"
+        ]
+    },
+    "com.about": {
+        "root": "com.about",
+        "name": "About.com",
+        "tags": [
+            "about",
+            "knowledge-base",
+            "search"
+        ]
+    },
+    "com.adobe": {
+        "root": "com.adobe",
+        "name": "Adobe",
+        "tags": [
+            "adobe",
+            "programming",
+            "software",
+            "shopping"
+        ]
+    },
+    "com.alexa": {
+        "root": "com.alexa",
+        "name": "Alexa",
+        "tags": [
+            "alexa",
+            "amazon"
+        ]
+    },
+    "com.amazon": {
+        "root": "com.amazon",
+        "name": "Amazon",
+        "tags": [
+            "amazon",
+            "featured",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.automotive": {
+        "root": "com.amazon",
+        "name": "Amazon Automotive",
+        "tags": [
+            "amazon",
+            "automotive",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.books": {
+        "root": "com.amazon",
+        "name": "Amazon Books",
+        "tags": [
+            "amazon",
+            "books",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.digital.games": {
+        "root": "com.amazon",
+        "name": "Amazon Digital Video Games",
+        "tags": [
+            "amazon",
+            "gaming",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.digital.music": {
+        "root": "com.amazon",
+        "name": "Amazon Digital Music",
+        "tags": [
+            "amazon",
+            "music",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.digital.video": {
+        "root": "com.amazon",
+        "name": "Amazon Digital Video",
+        "tags": [
+            "amazon",
+            "search",
+            "shopping",
+            "videos"
+        ]
+    },
+    "com.amazon.electronics": {
+        "root": "com.amazon",
+        "name": "Amazon Electronics",
+        "tags": [
+            "amazon",
+            "electronics",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.games": {
+        "root": "com.amazon",
+        "name": "Amazon Video Games",
+        "tags": [
+            "amazon",
+            "gaming",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.kindle": {
+        "root": "com.amazon",
+        "name": "Amazon Kindle",
+        "tags": [
+            "amazon",
+            "books",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.amazon.music": {
+        "root": "com.amazon",
+        "name": "Amazon Music",
+        "tags": [
+            "amazon",
+            "music",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.answers": {
+        "root": "com.answers",
+        "name": "Answers.com",
+        "tags": [
+            "answers.com",
+            "featured",
+            "knowledge-base",
+            "search"
+        ]
+    },
+    "com.aol": {
+        "root": "com.aol",
+        "name": "AOL",
+        "tags": [
+            "aol",
+            "portal"
+        ]
+    },
+    "com.apple": {
+        "root": "com.apple",
+        "name": "Apple",
+        "tags": [
+            "apple",
+            "featured",
+            "shopping"
+        ]
+    },
+    "com.ask": {
+        "root": "com.ask",
+        "name": "Ask",
+        "tags": [
+            "ask",
+            "search",
+            "web"
+        ]
+    },
+    "com.baidu": {
+        "root": "com.baidu",
+        "name": "Baidu",
+        "tags": [
+            "baidu",
+            "search",
+            "web"
+        ]
+    },
+    "com.bebo": {
+        "root": "com.bebo",
+        "name": "Bebo",
+        "tags": [
+            "bebo",
+            "social-networking"
+        ]
+    },
+    "com.bestbuy": {
+        "root": "com.bestbuy",
+        "name": "Best Buy",
+        "tags": [
+            "bestbuy",
+            "electronics",
+            "gaming",
+            "shopping"
+        ]
+    },
+    "com.bing": {
+        "root": "com.bing",
+        "name": "Bing",
+        "tags": [
+            "bing",
+            "featured",
+            "search",
+            "web"
+        ]
+    },
+    "com.bing.images": {
+        "root": "com.bing",
+        "name": "Bing Images",
+        "tags": [
+            "bing",
+            "images",
+            "search"
+        ]
+    },
+    "com.bing.local": {
+        "root": "com.bing",
+        "name": "Bing Local",
+        "tags": [
+            "bing",
+            "directory",
+            "local",
+            "search"
+        ]
+    },
+    "com.bing.maps": {
+        "root": "com.bing",
+        "name": "Bing Maps",
+        "tags": [
+            "bing",
+            "maps"
+        ]
+    },
+    "com.bing.news": {
+        "root": "com.bing",
+        "name": "Bing News",
+        "tags": [
+            "bing",
+            "news",
+            "search"
+        ]
+    },
+    "com.bing.shopping": {
+        "root": "com.bing",
+        "name": "Bing Shopping",
+        "tags": [
+            "bing",
+            "shopping",
+            "search"
+        ]
+    },
+    "com.bing.travel": {
+        "root": "com.bing",
+        "name": "Bing Travel",
+        "tags": [
+            "bing",
+            "search",
+            "travel"
+        ]
+    },
+    "com.bing.videos": {
+        "root": "com.bing",
+        "name": "Bing Videos",
+        "tags": [
+            "bing",
+            "search",
+            "videos"
+        ]
+    },
+    "com.blogcatalog": {
+        "root": "com.blogcatalog",
+        "name": "BlogCatalog",
+        "tags": [
+            "blogcatalog",
+            "blogging",
+            "search"
+        ]
+    },
+    "com.bloomberg": {
+        "root": "com.bloomberg",
+        "name": "Bloomberg.com",
+        "tags": [
+            "bloomberg",
+            "finance",
+            "news"
+        ]
+    },
+    "com.break": {
+        "root": "com.break",
+        "name": "Break.com",
+        "tags": [
+            "break",
+            "videos"
+        ]
+    },
+    "com.careerbuilder": {
+        "root": "com.careerbuilder",
+        "name": "CareerBuilder.com",
+        "tags": [
+            "business",
+            "careerbuilder",
+            "job",
+            "search"
+        ]
+    },
+    "com.cnet": {
+        "root": "com.cnet",
+        "name": "CNET",
+        "tags": [
+            "cnet",
+            "news",
+            "reviews",
+            "shopping"
+        ]
+    },
+    "com.cnn": {
+        "root": "com.cnn",
+        "name": "CNN",
+        "tags": [
+            "cnn",
+            "news"
+        ]
+    },
+    "com.dailymotion": {
+        "root": "com.dailymotion",
+        "name": "Dailymotion",
+        "tags": [
+            "dailymotion",
+            "search",
+            "videos"
+        ]
+    },
+    "com.delicious": {
+        "root": "com.delicious",
+        "name": "Delicious",
+        "tags": [
+            "delicious",
+            "bookmarking"
+        ]
+    },
+    "com.deviantart": {
+        "root": "com.deviantart",
+        "name": "deviantART",
+        "tags": [
+            "art",
+            "deviantart",
+            "gallery",
+            "photos"
+        ]
+    },
+    "com.digg": {
+        "root": "com.digg",
+        "name": "Digg",
+        "tags": [
+            "digg",
+            "featured",
+            "news"
+        ]
+    },
+    "com.ebay": {
+        "root": "com.ebay",
+        "name": "eBay",
+        "tags": [
+            "ebay",
+            "featured",
+            "shopping"
+        ]
+    },
+    "com.economist": {
+        "root": "com.economist",
+        "name": "The Economist",
+        "tags": [
+            "business",
+            "economics",
+            "economist",
+            "finance",
+            "news"
+        ]
+    },
+    "com.ehow": {
+        "root": "com.ehow",
+        "name": "eHow",
+        "tags": [
+            "ehow",
+            "knowledge-base"
+        ]
+    },
+    "com.elitistjerks": {
+        "root": "com.elitistjerks",
+        "name": "Elitist Jerks",
+        "tags": [
+            "discussion",
+            "gaming",
+            "search",
+            "world-of-warcraft"
+        ]
+    },
+    "com.etsy": {
+        "root": "com.etsy",
+        "name": "Etsy",
+        "tags": [
+            "etsy",
+            "homemade",
+            "shopping"
+        ]
+    },
+    "com.expedia": {
+        "root": "com.expedia",
+        "name": "Expedia",
+        "tags": [
+            "expedia",
+            "knowledge-base"
+        ]
+    },
+    "com.facebook": {
+        "root": "com.facebook",
+        "name": "Facebook",
+        "tags": [
+            "facebook",
+            "featured",
+            "social-networking"
+        ]
+    },
+    "com.flickr": {
+        "root": "com.flickr",
+        "name": "Flickr",
+        "tags": [
+            "featured",
+            "flickr",
+            "photo",
+            "yahoo"
+        ]
+    },
+    "com.fotolog": {
+        "root": "com.fotolog",
+        "name": "Fotolog",
+        "tags": [
+            "fotolog",
+            "photos"
+        ]
+    },
+    "com.foxnews": {
+        "root": "com.foxnews",
+        "name": "Fox News",
+        "tags": [
+            "fox",
+            "foxnews",
+            "news"
+        ]
+    },
+    "com.foxsports": {
+        "root": "com.foxsports",
+        "name": "FOX Sports",
+        "tags": [
+            "fox",
+            "foxsports",
+            "news",
+            "sports"
+        ]
+    },
+    "com.friendster": {
+        "root": "com.friendster",
+        "name": "Friendster",
+        "tags": [
+            "friendster",
+            "social-networking"
+        ]
+    },
+    "com.gamefaqs": {
+        "root": "com.gamefaqs",
+        "name": "GameFAQs",
+        "tags": [
+            "gamefaqs",
+            "gaming"
+        ]
+    },
+    "com.gametrailers": {
+        "root": "com.gametrailers",
+        "name": "GameTrailers.com",
+        "tags": [
+            "gametrailers",
+            "gaming",
+            "trailers",
+            "videos"
+        ]
+    },
+    "com.github": {
+        "root": "com.github",
+        "name": "GitHub",
+        "tags": [
+            "code",
+            "github",
+            "open-source"
+        ]
+    },
+    "com.github.gist": {
+        "root": "com.github",
+        "name": "GitHub Gist",
+        "tags": [
+            "code",
+            "github",
+            "open-source"
+        ]
+    },
+    "com.go": {
+        "root": "com.go",
+        "name": "Go",
+        "tags": [
+            "go",
+            "portal",
+            "search",
+            "web"
+        ]
+    },
+    "com.go.espn": {
+        "root": "com.go.espn",
+        "name": "ESPN",
+        "tags": [
+            "espn",
+            "go",
+            "news",
+            "sports"
+        ]
+    },
+    "com.goal": {
+        "root": "com.goal",
+        "name": "Goal.com",
+        "tags": [
+            "goal",
+            "soccer",
+            "sports"
+        ]
+    },
+    "com.google": {
+        "root": "com.google",
+        "name": "Google",
+        "tags": [
+            "google",
+            "featured",
+            "search",
+            "web"
+        ]
+    },
+    "com.google.blogs": {
+        "root": "com.google",
+        "name": "Google Blog Search",
+        "tags": [
+            "blogging",
+            "google",
+            "search"
+        ]
+    },
+    "com.google.books": {
+        "root": "com.google",
+        "name": "Google Books",
+        "tags": [
+            "books",
+            "google",
+            "search"
+        ]
+    },
+    "com.google.calendar": {
+        "root": "com.google",
+        "name": "Google Calendar",
+        "tags": [
+            "calendar",
+            "google"
+        ]
+    },
+    "com.google.checkout": {
+        "root": "com.google",
+        "name": "Google Checkout",
+        "tags": [
+            "google",
+            "money",
+            "payment"
+        ]
+    },
+    "com.google.classic": {
+        "root": "com.google",
+        "name": "Google (classic)",
+        "tags": [
+            "google",
+            "search"
+        ]
+    },
+    "com.google.code": {
+        "root": "com.google",
+        "name": "Google Code",
+        "tags": [
+            "code",
+            "google",
+            "open-source",
+            "programming"
+        ]
+    },
+    "com.google.directory": {
+        "root": "com.google",
+        "name": "Google Directory",
+        "tags": [
+            "directory",
+            "google",
+            "search"
+        ]
+    },
+    "com.google.docs": {
+        "root": "com.google",
+        "name": "Google Docs",
+        "tags": [
+            "documents",
+            "google",
+            "presentation",
+            "spreadsheet",
+            "word-processing"
+        ]
+    },
+    "com.google.encrypted": {
+        "root": "com.google.encrypted",
+        "name": "Google (encrypted)",
+        "tags": [
+            "encrypted",
+            "google",
+            "featured",
+            "search",
+            "web"
+        ]
+    },
+    "com.google.finance": {
+        "root": "com.google",
+        "name": "Google Finance",
+        "tags": [
+            "finance",
+            "google",
+            "money",
+            "search",
+            "stock-quotes"
+        ]
+    },
+    "com.google.groups": {
+        "root": "com.google",
+        "name": "Google Groups",
+        "tags": [
+            "discussion",
+            "google",
+            "groups"
+        ]
+    },
+    "com.google.health": {
+        "root": "com.google",
+        "name": "Google Health",
+        "tags": [
+            "google",
+            "health"
+        ]
+    },
+    "com.google.ig": {
+        "root": "com.google",
+        "name": "iGoogle",
+        "tags": [
+            "google",
+            "portal",
+            "search"
+        ]
+    },
+    "com.google.images": {
+        "root": "com.google",
+        "name": "Google Images",
+        "tags": [
+            "google",
+            "images",
+            "search"
+        ]
+    },
+    "com.google.knol": {
+        "root": "com.google",
+        "name": "Google Knol",
+        "tags": [
+            "google",
+            "knol",
+            "knowledge-base"
+        ]
+    },
+    "com.google.labs": {
+        "root": "com.google",
+        "name": "Google Labs",
+        "tags": [
+            "experimental",
+            "google"
+        ]
+    },
+    "com.google.lucky": {
+        "root": "com.google",
+        "name": "Google I'm Feeling Lucky",
+        "tags": [
+            "google",
+            "search",
+            "web"
+        ]
+    },
+    "com.google.mail": {
+        "root": "com.google",
+        "name": "Gmail",
+        "tags": [
+            "email",
+            "google"
+        ]
+    },
+    "com.google.maps": {
+        "root": "com.google",
+        "name": "Google Maps",
+        "tags": [
+            "google",
+            "local",
+            "maps"
+        ]
+    },
+    "com.google.news": {
+        "root": "com.google",
+        "name": "Google News",
+        "tags": [
+            "google",
+            "news",
+            "search"
+        ]
+    },
+    "com.google.patents": {
+        "root": "com.google",
+        "name": "Google Patents",
+        "tags": [
+            "google",
+            "patents",
+            "search"
+        ]
+    },
+    "com.google.reader": {
+        "root": "com.google",
+        "name": "Google Reader",
+        "tags": [
+            "feed-reader",
+            "google"
+        ]
+    },
+    "com.google.scholar": {
+        "root": "com.google",
+        "name": "Google Scholar",
+        "tags": [
+            "google",
+            "journals",
+            "search"
+        ]
+    },
+    "com.google.shopping": {
+        "root": "com.google",
+        "name": "Google Products",
+        "tags": [
+            "google",
+            "shopping",
+            "search"
+        ]
+    },
+    "com.google.videos": {
+        "root": "com.google",
+        "name": "Google Videos",
+        "tags": [
+            "google",
+            "search",
+            "videos"
+        ]
+    },
+    "com.google.voice": {
+        "root": "com.google.voice",
+        "name": "Google Voice",
+        "tags": [
+            "phone",
+            "google",
+            "voice"
+        ]
+    },
+    "com.hi5": {
+        "root": "com.hi5",
+        "name": "hi5",
+        "tags": [
+            "hi5",
+            "social-networking"
+        ]
+    },
+    "com.hubpages": {
+        "root": "com.hubpages",
+        "name": "HubPages",
+        "tags": [
+            "hubpages",
+            "knowledge-base"
+        ]
+    },
+    "com.huffingtonpost": {
+        "root": "com.huffingtonpost",
+        "name": "The Huffington Post",
+        "tags": [
+            "huffingtonpost",
+            "news"
+        ]
+    },
+    "com.hulu": {
+        "root": "com.hulu",
+        "name": "Hulu",
+        "tags": [
+            "featured",
+            "hulu",
+            "search",
+            "videos"
+        ]
+    },
+    "com.ibm": {
+        "root": "com.ibm",
+        "name": "IBM",
+        "tags": [
+            "ibm"
+        ]
+    },
+    "com.ign": {
+        "root": "com.ign",
+        "name": "IGN",
+        "tags": [
+            "gaming",
+            "ign",
+            "search"
+        ]
+    },
+    "com.ikea": {
+        "root": "com.ikea",
+        "name": "IKEA",
+        "tags": [
+            "ikea",
+            "shopping"
+        ]
+    },
+    "com.imdb": {
+        "root": "com.imdb",
+        "name": "Internet Movie Database (IMDb)",
+        "tags": [
+            "actor",
+            "actress",
+            "featured",
+            "imdb",
+            "movie",
+            "search",
+            "tv",
+            "video-game"
+        ]
+    },
+    "com.istockphoto": {
+        "root": "com.istockphoto",
+        "name": "iStockphoto",
+        "tags": [
+            "istockphoto",
+            "photos"
+        ]
+    },
+    "com.keyfu": {
+        "root": "com.keyfu",
+        "name": "KeyFu",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.account": {
+        "root": "com.keyfu",
+        "name": "KeyFu Account",
+        "tags": [
+            "account",
+            "keyfu"
+        ]
+    },
+    "com.keyfu.add": {
+        "root": "com.keyfu",
+        "name": "KeyFu Add Keyword",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.delete": {
+        "root": "com.keyfu",
+        "name": "KeyFu Delete Keyword",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.edit": {
+        "root": "com.keyfu",
+        "name": "KeyFu Edit Keyword",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.help": {
+        "root": "com.keyfu",
+        "name": "KeyFu Help",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.help.cheatsheet": {
+        "root": "com.keyfu",
+        "name": "KeyFu Cheat Sheet",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.keyword.rename": {
+        "root": "com.keyfu",
+        "name": "KeyFu Rename Keyword",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.privacy": {
+        "root": "com.keyfu",
+        "name": "KeyFu Privacy Policy",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.keyfu.terms": {
+        "root": "com.keyfu",
+        "name": "KeyFu Terms of Service",
+        "tags": [
+            "keyfu"
+        ]
+    },
+    "com.latimes": {
+        "root": "com.latimes",
+        "name": "Los Angeles Times",
+        "tags": [
+            "latimes",
+            "news"
+        ]
+    },
+    "com.linkedin": {
+        "root": "com.linkedin",
+        "name": "LinkedIn",
+        "tags": [
+            "business-network",
+            "linkedin",
+            "social-networking"
+        ]
+    },
+    "com.mashable": {
+        "root": "com.mashable",
+        "name": "Mashable",
+        "tags": [
+            "blogging",
+            "mashable",
+            "news"
+        ]
+    },
+    "com.metacafe": {
+        "root": "com.metacafe",
+        "name": "Metacafe",
+        "tags": [
+            "metacafe",
+            "search",
+            "videos"
+        ]
+    },
+    "com.metrolyrics": {
+        "root": "com.metrolyrics",
+        "name": "MetroLyrics",
+        "tags": [
+            "lyrics",
+            "metrolyrics",
+            "music"
+        ]
+    },
+    "com.mlb": {
+        "root": "com.mlb",
+        "name": "Major League Baseball",
+        "tags": [
+            "baseball",
+            "mlb",
+            "sports"
+        ]
+    },
+    "com.mozilla": {
+        "root": "com.mozilla",
+        "name": "Mozilla",
+        "tags": [
+            "mozilla"
+        ]
+    },
+    "com.mtv": {
+        "root": "com.mtv",
+        "name": "MTV",
+        "tags": [
+            "music",
+            "mtv",
+            "videos"
+        ]
+    },
+    "com.myspace": {
+        "root": "com.myspace",
+        "name": "MySpace",
+        "tags": [
+            "featured",
+            "myspace",
+            "social-networking"
+        ]
+    },
+    "com.name": {
+        "root": "com.name",
+        "name": "Name.com",
+        "tags": [
+            "domain-registrar",
+            "name.com"
+        ]
+    },
+    "com.netflix": {
+        "root": "com.netflix",
+        "name": "NetFlix",
+        "tags": [
+            "featured",
+            "netflix",
+            "videos"
+        ]
+    },
+    "com.newegg": {
+        "root": "com.newegg",
+        "name": "Newegg",
+        "tags": [
+            "featured",
+            "newegg",
+            "search",
+            "shopping"
+        ]
+    },
+    "com.nfl": {
+        "root": "com.nfl",
+        "name": "NFL",
+        "tags": [
+            "football",
+            "nfl",
+            "sports"
+        ]
+    },
+    "com.ning": {
+        "root": "com.ning",
+        "name": "Ning",
+        "tags": [
+            "ning",
+            "social-networking"
+        ]
+    },
+    "com.nytimes": {
+        "root": "com.nytimes",
+        "name": "New York Times",
+        "tags": [
+            "nytimes",
+            "news"
+        ]
+    },
+    "com.orkut": {
+        "root": "com.orkut",
+        "name": "Orkut",
+        "tags": [
+            "google",
+            "orkut",
+            "social-networking"
+        ]
+    },
+    "com.pandora": {
+        "root": "com.pandora",
+        "name": "Pandora",
+        "tags": [
+            "pandora",
+            "music"
+        ]
+    },
+    "com.paypal": {
+        "root": "com.paypal",
+        "name": "PayPal",
+        "tags": [
+            "ebay",
+            "payment",
+            "paypal",
+            "money"
+        ]
+    },
+    "com.people": {
+        "root": "com.people",
+        "name": "People",
+        "tags": [
+            "people",
+            "news",
+            "tabloid"
+        ]
+    },
+    "com.photobucket": {
+        "root": "com.photobucket",
+        "name": "Photobucket",
+        "tags": [
+            "photobucket",
+            "photo",
+            "search"
+        ]
+    },
+    "com.reddit": {
+        "root": "com.reddit",
+        "name": "reddit",
+        "tags": [
+            "featured",
+            "news",
+            "reddit"
+        ]
+    },
+    "com.reference": {
+        "root": "com.reference",
+        "name": "Reference.com",
+        "tags": [
+            "reference.com",
+            "knowledge-base"
+        ]
+    },
+    "com.reuters": {
+        "root": "com.reuters",
+        "name": "Reuters",
+        "tags": [
+            "news",
+            "reuters"
+        ]
+    },
+    "com.scribd": {
+        "root": "com.scribd",
+        "name": "Scribd",
+        "tags": [
+            "document-sharing",
+            "scribd"
+        ]
+    },
+    "com.skype": {
+        "root": "com.skype",
+        "name": "Skype",
+        "tags": [
+            "phone",
+            "skype",
+            "voip"
+        ]
+    },
+    "com.target": {
+        "root": "com.target",
+        "name": "Target",
+        "tags": [
+            "shopping",
+            "target"
+        ]
+    },
+    "com.techcrunch": {
+        "root": "com.techcrunch",
+        "name": "TechCrunch",
+        "tags": [
+            "blogging",
+            "news",
+            "techcrunch"
+        ]
+    },
+    "com.thottbot": {
+        "root": "com.thottbot",
+        "name": "Thottbot",
+        "tags": [
+            "gaming",
+            "search",
+            "world-of-warcraft"
+        ]
+    },
+    "com.tripadvisor": {
+        "root": "com.tripadvisor",
+        "name": "TripAdvisor",
+        "tags": [
+            "reviews",
+            "travel",
+            "tripadvisor"
+        ]
+    },
+    "com.tumblr": {
+        "root": "com.tumblr",
+        "name": "Tumblr",
+        "tags": [
+            "blogging",
+            "tumblr"
+        ]
+    },
+    "com.twitter": {
+        "root": "com.twitter",
+        "name": "Twitter",
+        "tags": [
+            "featured",
+            "micro-blog",
+            "social-networking",
+            "twitter"
+        ]
+    },
+    "com.ups": {
+        "root": "com.ups",
+        "name": "UPS",
+        "tags": [
+            "shipping",
+            "ups"
+        ]
+    },
+    "com.usatoday": {
+        "root": "com.usatoday",
+        "name": "USA Today",
+        "tags": [
+            "news",
+            "usatoday"
+        ]
+    },
+    "com.usps": {
+        "root": "com.usps",
+        "name": "United States Postal Service",
+        "tags": [
+            "shipping",
+            "usps"
+        ]
+    },
+    "com.veoh": {
+        "root": "com.veoh",
+        "name": "Veoh",
+        "tags": [
+            "veoh",
+            "videos"
+        ]
+    },
+    "com.vimeo": {
+        "root": "com.vimeo",
+        "name": "Vimeo",
+        "tags": [
+            "video",
+            "vimeo"
+        ]
+    },
+    "com.w3schools": {
+        "root": "com.w3schools",
+        "name": "W3Schools",
+        "tags": [
+            "knowledge-base",
+            "programming",
+            "w3schools"
+        ]
+    },
+    "com.walmart": {
+        "root": "com.walmart",
+        "name": "Walmart",
+        "tags": [
+            "shopping",
+            "walmart"
+        ]
+    },
+    "com.washingtonpost": {
+        "root": "com.washingtonpost",
+        "name": "Washington Post",
+        "tags": [
+            "news",
+            "washingtonpost"
+        ]
+    },
+    "com.weather": {
+        "root": "com.weather",
+        "name": "Weather.com",
+        "tags": [
+            "local",
+            "weather"
+        ]
+    },
+    "com.wikia": {
+        "root": "com.wikia",
+        "name": "Wikia",
+        "tags": [
+            "knowledge-base",
+            "wikia",
+            "wiki"
+        ]
+    },
+    "com.wolframalpha": {
+        "root": "com.wolframalpha",
+        "name": "Wolfram Alpha",
+        "tags": [
+            "featured",
+            "knowledge-base",
+            "search",
+            "web",
+            "wolframalpha"
+        ]
+    },
+    "com.wordpress": {
+        "root": "com.wordpress",
+        "name": "WordPress",
+        "tags": [
+            "blog",
+            "search",
+            "wordpress"
+        ]
+    },
+    "com.wowarmory": {
+        "root": "com.wowarmory",
+        "name": "World of Warcraft Armory",
+        "tags": [
+            "gaming",
+            "search",
+            "world-of-warcraft"
+        ]
+    },
+    "com.wowhead": {
+        "root": "com.wowhead",
+        "name": "Wowhead",
+        "tags": [
+            "gaming",
+            "search",
+            "world-of-warcraft"
+        ]
+    },
+    "com.wsj": {
+        "root": "com.wsj",
+        "name": "Wall Street Journal",
+        "tags": [
+            "business",
+            "economics",
+            "finance",
+            "news",
+            "wsj"
+        ]
+    },
+    "com.xbox": {
+        "root": "com.xbox",
+        "name": "Xbox.com",
+        "tags": [
+            "gaming",
+            "microsoft",
+            "xbox"
+        ]
+    },
+    "com.xing": {
+        "root": "com.xing",
+        "name": "XING",
+        "tags": [
+            "business-networking",
+            "social-networking",
+            "xing"
+        ]
+    },
+    "com.y8": {
+        "root": "com.y8",
+        "name": "Y8.com",
+        "tags": [
+            "gaming",
+            "y8.com"
+        ]
+    },
+    "com.yahoo": {
+        "root": "com.yahoo",
+        "name": "Yahoo",
+        "tags": [
+            "featured",
+            "portal",
+            "search",
+            "web",
+            "yahoo"
+        ]
+    },
+    "com.ycombinator.news": {
+        "root": "com.ycombinator",
+        "name": "Hacker News",
+        "tags": [
+            "hacker",
+            "news"
+        ]
+    },
+    "com.yelp": {
+        "root": "com.yelp",
+        "name": "Yelp",
+        "tags": [
+            "local",
+            "reviews",
+            "yelp"
+        ]
+    },
+    "com.youtube": {
+        "root": "com.youtube",
+        "name": "YouTube",
+        "tags": [
+            "featured",
+            "google",
+            "search",
+            "videos",
+            "youtube"
+        ]
+    },
+    "com.zimbio": {
+        "root": "com.zimbio",
+        "name": "ZimBio",
+        "tags": [
+            "news",
+            "tabloid",
+            "zimbio"
+        ]
+    },
+    "fm.last": {
+        "root": "fm.last",
+        "name": "Last.pm",
+        "tags": [
+            "last.fm",
+            "music",
+            "social-networking"
+        ]
+    },
+    "gov.nih": {
+        "root": "gov.nih",
+        "name": "National Institutes of Health (NIH)",
+        "tags": [
+            "government",
+            "health",
+            "nih"
+        ]
+    },
+    "ly.bit": {
+        "root": "ly.bit",
+        "name": "Bit.ly",
+        "tags": [
+            "bit.ly",
+            "url-shortening"
+        ]
+    },
+    "net.php": {
+        "root": "net.php",
+        "name": "PHP",
+        "tags": [
+            "documentation",
+            "php",
+            "programming"
+        ]
+    },
+    "net.sourceforge": {
+        "root": "net.sourceforge",
+        "name": "SourceForge",
+        "tags": [
+            "sourceforge",
+            "open-source",
+            "programming"
+        ]
+    },
+    "org.archive": {
+        "root": "org.archive",
+        "name": "Internet Archive ",
+        "tags": [
+            "archive"
+        ]
+    },
+    "org.archive.waybackmachine": {
+        "root": "org.archive",
+        "name": "Wayback Machine",
+        "tags": [
+            "archive",
+            "waybackmachine"
+        ]
+    },
+    "org.cudb": {
+        "root": "org.cudb",
+        "name": "Common Usage Database (cudb)",
+        "tags": [
+            "knowledge-base",
+            "open-source"
+        ]
+    },
+    "org.python": {
+        "root": "org.python",
+        "name": "Python",
+        "tags": [
+            "documentation",
+            "python",
+            "programming"
+        ]
+    },
+    "org.wikipedia": {
+        "root": "org.wikipedia",
+        "name": "Wikipedia",
+        "tags": [
+            "featured",
+            "knowledge-base",
+            "wiki",
+            "wikipedia"
+        ]
+    },
+    "org.wordpress": {
+        "root": "org.wordpress",
+        "name": "WordPress.org",
+        "tags": [
+            "blogging",
+            "open-source",
+            "progrmming",
+            "wordpress"
+        ]
+    },
+    "tv.justin": {
+        "root": "tv.justin",
+        "name": "Justin.tv",
+        "tags": [
+            "justin.tv",
+            "videos"
+        ]
+    },
+    "tv.ustream": {
+        "root": "tv.ustream",
+        "name": "Ustream",
+        "tags": [
+            "ustream.tv",
+            "videos"
+        ]
+    },
+    "us.imageshack": {
+        "root": "us.imageshack",
+        "name": "ImageShack",
+        "tags": [
+            "imageshack",
+            "photos"
+        ]
+    }
+}

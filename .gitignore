@@ -1,0 +1,8 @@
+*.log
+*.pyc
+*swp
+.build
+.vagrant
+keyfu
+static/*.min.*
+venv
