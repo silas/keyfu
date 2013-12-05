@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	"strings"
 	"net/url"
+	"strings"
 	"unicode"
 )
 
@@ -11,16 +11,16 @@ var keywords = map[string]string{
 	"a":    "http://www.amazon.com/\nhttp://www.amazon.com/s?url=search-alias%3Daps&field-keywords=%s",
 	"ab":   "http://www.amazon.com/b?node=283155\nhttp://www.amazon.com/s?url=search-alias%3Dstripbooks&field-keywords=%s",
 	"av":   "https://www.amazon.com/gp/video/library\nhttp://www.amazon.com/s/?url=search-alias%3Dinstant-video&field-keywords=%s",
-	"digg":   "http://digg.com/reader",
+	"digg": "http://digg.com/reader",
 	"gc":   "https://www.google.com/calendar/render\nhttps://www.google.com/calendar/render?q=%s",
 	"gh":   "https://github.com/\nhttps://github.com/search?q=%s",
 	"gi":   "https://www.google.com/imghp\nhttps://www.google.com/search?site=imghp&tbm=isch&q=%s",
 	"gl":   "https://www.google.com/search?q=%s&btnI=I'm+Feeling+Lucky",
 	"gm":   "https://mail.google.com/mail/\nhttps://mail.google.com/mail/#search/%s",
 	"gd":   "https://drive.google.com/#starred\nhttps://drive.google.com/#search/%s",
-	"maps":  "https://maps.google.com/\nhttps://maps.google.com/maps?q=%s",
+	"maps": "https://maps.google.com/\nhttps://maps.google.com/maps?q=%s",
 	"name": "https://www.name.com/\nhttps://www.name.com/name?domain=%s",
-	"w": "https://en.wikipedia.org/wiki/Main_Page\nhttps://en.wikipedia.org/wiki/Special:Search?search=%s",
+	"w":    "https://en.wikipedia.org/wiki/Main_Page\nhttps://en.wikipedia.org/wiki/Special:Search?search=%s",
 }
 
 func parseQ(value string) (string, string) {
