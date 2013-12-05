@@ -13,7 +13,11 @@ func main() {
 
 	m.Get("/run", func(res http.ResponseWriter, req *http.Request) {
 		q := req.FormValue("q")
-		http.Redirect(res, req, "https://www.google.com/search?q=" + url.QueryEscape(q), 302)
+		if v, err := Run(q); err == nil {
+			http.Redirect(res, req, v, 302)
+		} else {
+			http.Redirect(res, req, "https://www.google.com/search?q=" + url.QueryEscape(q), 302)
+		}
 	})
 
 	m.Get("/", func(r render.Render) {
