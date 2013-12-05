@@ -1,9 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>KeyFu</title>
+    <link href="/keyfu.css" rel="stylesheet" type="text/css">
+    <link href="https://keyfu.herokuapp.com/opensearch.xml" rel="search" title="KeyFu" type="application/opensearchdescription+xml">
   </head>
-  <body>
-    <h1>KeyFu</h1>
+  <body id="home">
+    <div id="container">
+      <div id="header">
+        <a href="/"><img alt="KeyFu" id="logo" src="/logo.gif" width="178" height="70"></a>
+      </div>
+      <div id="content">
+        <div id="runbar">
+        	<form action="/run" name="form">
+        		<input id="q" name="q"{{if .q}} value="{{.q}}"{{end}} autofocus>
+        	</form>
+        </div>
+      </div>
+      <div class="small" id="footer">&copy;2013 <a href="http://silas.sewell.org/">Silas Sewell</a></div>
+    </div>
   </body>
 </html>
