@@ -1,5 +1,18 @@
 {
-    "ImportPath": "keyfu",
-    "GoVersion": "go1.1",
-    "Deps": []
+	"ImportPath": "github.com/silas/keyfu",
+	"GoVersion": "go1.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Rev": "37512bbe41b4cc579cdd706742efc7bf34f94b06"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini",
+			"Rev": "fc85f10778a765eee8af3f778bf88b1b0aa48009"
+		},
+		{
+			"ImportPath": "github.com/codegangsta/martini-contrib",
+			"Rev": "69188db8b01d34f6790e2247a2e38d5f46ea2eb2"
+		}
+	]
 }
