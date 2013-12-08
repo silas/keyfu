@@ -3,6 +3,10 @@
 	"GoVersion": "go1.2",
 	"Deps": [
 		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Rev": "2dff11163ee667d51dcc066660925a92ce138deb"
+		},
+		{
 			"ImportPath": "github.com/codegangsta/inject",
 			"Rev": "37512bbe41b4cc579cdd706742efc7bf34f94b06"
 		},
