@@ -87,7 +87,7 @@ func main() {
 		if v, err := Run(q); err == nil {
 			http.Redirect(res, req, v, 302)
 		} else {
-			http.Redirect(res, req, "https://www.google.com/search?q="+url.QueryEscape(q), 302)
+			http.Redirect(res, req, "https://encrypted.google.com/search?q="+url.QueryEscape(q), 302)
 		}
 	})
 
