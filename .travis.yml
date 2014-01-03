@@ -7,7 +7,7 @@ before_install:
   - export PATH=$HOME/gopath/bin:$PATH
 
 install:
-  - godep restore
+  - godep go install
 
 script:
   - go test -v .
