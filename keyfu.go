@@ -12,16 +12,18 @@ import (
 	"github.com/codegangsta/martini"
 )
 
+const (
+	defaultURL = "https://encrypted.google.com/search?q="
+)
+
 type Keyword struct {
-	Url      string `toml:"url"`
-	QueryUrl string `toml:"query_url"`
+	URL      string `toml:"url"`
+	QueryURL string `toml:"query_url"`
 }
 
-type Config struct {
+type Server struct {
 	Keywords map[string]Keyword `toml:"keyword"`
 }
-
-var config Config
 
 func parseQ(value string) (string, string) {
 	if value == "" {
@@ -48,9 +50,9 @@ func parseQ(value string) (string, string) {
 	return value[begin:end], strings.TrimLeftFunc(value[end:], unicode.IsSpace)
 }
 
-func Run(q string) (string, error) {
+func (s *Server) Run(q string) (string, error) {
 	key, value := parseQ(q)
-	k, ok := config.Keywords[key]
+	k, ok := s.Keywords[key]
 
 	if !ok {
 		return "", errors.New("not found")
@@ -59,38 +61,42 @@ func Run(q string) (string, error) {
 	var u string
 
 	if len(value) > 0 {
-		if len(k.QueryUrl) == 0 {
+		if len(k.QueryURL) == 0 {
 			return "", errors.New("no query url for keyword")
 		}
-		u = k.QueryUrl
+		u = k.QueryURL
 	} else {
-		if len(k.Url) == 0 {
+		if len(k.URL) == 0 {
 			return "", errors.New("no url for keyword")
 		}
-		u = k.Url
+		u = k.URL
 	}
 
 	return strings.Replace(u, "%s", url.QueryEscape(value), -1), nil
 }
 
+func (s *Server) Handle(res http.ResponseWriter, req *http.Request) {
+	q := req.FormValue("q")
+
+	u, err := s.Run(q)
+	if err != nil {
+		u = defaultURL + url.QueryEscape(q)
+	}
+
+	http.Redirect(res, req, u, 302)
+}
+
 func main() {
-	var configPath = flag.String("c", "keyfu.conf", "KeyFu configuration file")
+	var path = flag.String("c", "keyfu.conf", "KeyFu configuration file")
 	flag.Parse()
 
-	if _, err := toml.DecodeFile(*configPath, &config); err != nil {
+	s := Server{}
+
+	if _, err := toml.DecodeFile(*path, &s); err != nil {
 		panic(err)
 	}
 
 	m := martini.Classic()
-
-	m.Get("/run", func(res http.ResponseWriter, req *http.Request) {
-		q := req.FormValue("q")
-		if v, err := Run(q); err == nil {
-			http.Redirect(res, req, v, 302)
-		} else {
-			http.Redirect(res, req, "https://encrypted.google.com/search?q="+url.QueryEscape(q), 302)
-		}
-	})
-
+	m.Get("/run", s.Handle)
 	m.Run()
 }
