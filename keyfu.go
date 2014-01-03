@@ -3,12 +3,13 @@ package main
 import (
 	"errors"
 	"flag"
-	"github.com/BurntSushi/toml"
-	"github.com/codegangsta/martini"
 	"net/http"
 	"net/url"
 	"strings"
 	"unicode"
+
+	"github.com/BurntSushi/toml"
+	"github.com/codegangsta/martini"
 )
 
 type Keyword struct {
