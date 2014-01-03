@@ -2,9 +2,12 @@ language: go
 go: 
  - 1.2
 
-install:
+before_install:
   - go get github.com/kr/godep
+  - export PATH=$HOME/gopath/bin:$PATH
+
+install:
+  - godep restore
 
 script:
-  - godep restore
   - go test -v .
