@@ -1,0 +1,10 @@
+language: go
+go: 
+ - 1.2
+
+install:
+  - go get github.com/kr/godep
+
+script:
+  - godep restore
+  - go test -v .
