@@ -8,11 +8,16 @@
 		},
 		{
 			"ImportPath": "github.com/codegangsta/inject",
-			"Rev": "37512bbe41b4cc579cdd706742efc7bf34f94b06"
+			"Rev": "346a984957aa24276ebc5e7b16b3ac6a50fe8138"
 		},
 		{
 			"ImportPath": "github.com/codegangsta/martini",
-			"Rev": "fc85f10778a765eee8af3f778bf88b1b0aa48009"
+			"Comment": "v0.1-52-g50f2d3f",
+			"Rev": "50f2d3f9d7eebef98b1a5dcf29dad72c66e918a7"
+		},
+		{
+			"ImportPath": "github.com/stretchr/testify",
+			"Rev": "4c55a02a9da3f9b9daf583332a2a82c38a4521be"
 		}
 	]
 }
