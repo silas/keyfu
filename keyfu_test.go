@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -26,9 +27,9 @@ func server() *Server {
 	s := Server{}
 
 	s.Keywords = map[string]Keyword{
-		"one":  Keyword{"one", ""},
-		"two":  Keyword{"", "two=%s"},
-		"both": Keyword{"url", "query_url=%s"},
+		"one":  Keyword{"", "one", ""},
+		"two":  Keyword{"", "", "two=%s"},
+		"both": Keyword{"", "url", "query_url=%s"},
 	}
 
 	return &s
@@ -46,7 +47,17 @@ func assertNotRun(t *testing.T, s *Server, q string) {
 	assert.NotNil(t, err)
 }
 
-func TestRun(t *testing.T) {
+func TestEnvRun(t *testing.T) {
+	env := Env{"echo", duration{5 * time.Second}}
+	keyword := Keyword{"", "url", "query_url"}
+
+	url, err := env.Run(&keyword, "one")
+	if assert.Nil(t, err) {
+		assert.Equal(t, url, "one")
+	}
+}
+
+func TestServerRun(t *testing.T) {
 	s := server()
 
 	// not found
