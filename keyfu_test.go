@@ -6,29 +6,55 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func assertRequestParse(t *testing.T, q, key, value string) {
-	r, err := NewRequest(q)
+func assertParse(t *testing.T, raw, key, value string, err error) {
+	k, v, e := parse(raw)
 
+	assert.Equal(t, k, key)
+	assert.Equal(t, v, value)
+	assert.Equal(t, e, err)
+}
+
+func TestParse(t *testing.T) {
+	assertParse(t, "", "", "", errParse)
+	assertParse(t, "one", "one", "", nil)
+	assertParse(t, " one ", "one", "", nil)
+	assertParse(t, "one two", "one", "two", nil)
+	assertParse(t, "one two three", "one", "two three", nil)
+	assertParse(t, "one  two  three ", "one", "two  three ", nil)
+}
+
+func assertLinkKeyword(t *testing.T, q, url, queryURL, body string) {
+	c := map[string]string{}
+
+	if url != "" {
+		c["url"] = url
+	}
+
+	if queryURL != "" {
+		c["query_url"] = queryURL
+	}
+
+	k, err := NewLinkKeyword(c)
 	if assert.Nil(t, err) {
-		assert.Equal(t, r.Key, key)
-		assert.Equal(t, r.Value, value)
+		assert.Equal(t, k.URL, url)
+		assert.Equal(t, k.QueryURL, queryURL)
+
+		if req, err := NewRequest(q); assert.Nil(t, err) {
+			if res, err := k.Run(req); assert.Nil(t, err) {
+				assert.Equal(t, res.Body, body)
+			}
+		}
 	}
+
 }
 
-func assertNotRequestParse(t *testing.T, q string) {
-	r, err := NewRequest(q)
+func TestLinkKeyword(t *testing.T) {
+	assertLinkKeyword(t, "key", "url1", "", "url1")
+	assertLinkKeyword(t, "key one two", "", "query_url1=%s", "query_url1=one+two")
+	assertLinkKeyword(t, "key", "url2", "query_url2", "url2")
+	assertLinkKeyword(t, "key one two", "url2", "query_url2=%s", "query_url2=one+two")
 
-	if assert.NotNil(t, err) {
-		assert.Equal(t, err, errParse)
-		assert.Nil(t, r)
-	}
-}
-
-func TestRequestParse(t *testing.T) {
-	assertNotRequestParse(t, "")
-	assertRequestParse(t, "one", "one", "")
-	assertRequestParse(t, " one ", "one", "")
-	assertRequestParse(t, "one two", "one", "two")
-	assertRequestParse(t, "one two three", "one", "two three")
-	assertRequestParse(t, "one  two  three ", "one", "two  three ")
+	k, err := NewLinkKeyword(map[string]string{})
+	assert.NotNil(t, err)
+	assert.Nil(t, k)
 }

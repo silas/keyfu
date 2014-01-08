@@ -33,15 +33,10 @@ var (
 	errNoUrl           = errors.New("keyfu: no url")
 	errNoQueryUrl      = errors.New("keyfu: no query url")
 	errParse           = errors.New("keyfu: parse error")
+	errLinkConfig      = errors.New("keyfu: invalid link keyword")
 	errProgramName     = errors.New("keyfu: program name invalid")
 	errProgramResponse = errors.New("keyfu: program response invalid")
 )
-
-type Server struct {
-	Config    Config
-	Keywords  map[string]Keyword
-	StartTime time.Time
-}
 
 type Config struct {
 	Listen   string                       `toml:"listen"`
@@ -55,11 +50,6 @@ type Response struct {
 
 type Keyword interface {
 	Run(r *Request) (*Response, error)
-}
-
-type LinkKeyword struct {
-	URL      string
-	QueryURL string
 }
 
 func parse(v string) (string, string, error) {
@@ -87,8 +77,17 @@ func parse(v string) (string, string, error) {
 	return v[begin:end], strings.TrimLeftFunc(v[end:], unicode.IsSpace), nil
 }
 
+type LinkKeyword struct {
+	URL      string
+	QueryURL string
+}
+
 func NewLinkKeyword(c map[string]string) (*LinkKeyword, error) {
-	return &LinkKeyword{c["url"], c["query_url"]}, nil
+	k := LinkKeyword{c["url"], c["query_url"]}
+	if k.URL == "" && k.QueryURL == "" {
+		return nil, errLinkConfig
+	}
+	return &k, nil
 }
 
 func (k LinkKeyword) Run(req *Request) (*Response, error) {
@@ -205,6 +204,12 @@ func (r *Request) Parse(q string) (err error) {
 	r.Query = q
 	r.Key, r.Value, err = parse(q)
 	return
+}
+
+type Server struct {
+	Config    Config
+	Keywords  map[string]Keyword
+	StartTime time.Time
 }
 
 func (s *Server) RunError(w http.ResponseWriter, r *http.Request, err error) {
