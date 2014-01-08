@@ -19,7 +19,7 @@ func assertNotRequestParse(t *testing.T, q string) {
 	r, err := NewRequest(q)
 
 	if assert.NotNil(t, err) {
-		assert.Equal(t, err, errQueryParse)
+		assert.Equal(t, err, errParse)
 		assert.Nil(t, r)
 	}
 }
