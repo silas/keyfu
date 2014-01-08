@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+raw="$1"
+key="$2"
+query="$3"
+
+case "$query" in
+  history)
+    echo -en "redirect\thttps://en.wikipedia.org/wiki/$( date +%B_%d | sed 's|_0|_|g' )"
+    ;;
+  '')
+    echo -en "render\t$( date )"
+    ;;
+  *)
+    echo -en "render\tunknown query: '$query'"
+    ;;
+esac

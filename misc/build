@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+rm -f static/*.go
+
+if ! type -f go-bindata &>/dev/null; then
+  go get github.com/jteeuwen/go-bindata
+fi
+
+for path in $( find static -type f -not -name '*.go' ); do
+  go-bindata -toc $path
+done
+
+sed -i.bak 's|package main|package static|g' static/*.go
+sed -i.bak 's|go_bindata|Data|g' static/*.go
+
+rm -f static/bindata-toc.go static/*.bak
+
+cp ./misc/static.go ./static/
+
+go build -v
+go test -v

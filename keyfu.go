@@ -4,67 +4,72 @@ import (
 	"bytes"
 	"errors"
 	"flag"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"os/exec"
+	"path"
 	"strings"
 	"time"
 	"unicode"
 
 	"github.com/BurntSushi/toml"
-	"github.com/codegangsta/martini"
+	"github.com/silas/keyfu/static"
 )
 
 const (
-	defaultURL     = "https://encrypted.google.com/search?q="
-	defaultTimeout = 5 * time.Second
+	Redirect = iota
+	Render
 )
 
 var (
-	errEnvKilled  = errors.New("keyfu: env killed")
-	errNoQueryUrl = errors.New("keyfu: no query url")
-	errNoUrl      = errors.New("keyfu: no url")
-	errNotFound   = errors.New("keyfu: not found")
-	errUnknownEnv = errors.New("keyfu: unknown environment")
+	defaultTimeout = 5 * time.Second
+	defaultURL     = "https://encrypted.google.com/search?q="
+	types          = map[string]int{"redirect": Redirect, "render": Render}
+
+	errEnvTimeout      = errors.New("keyfu: env timed out")
+	errNoUrl           = errors.New("keyfu: no url")
+	errNoQueryUrl      = errors.New("keyfu: no query url")
+	errParse           = errors.New("keyfu: parse error")
+	errProgramName     = errors.New("keyfu: program name invalid")
+	errProgramResponse = errors.New("keyfu: program response invalid")
 )
 
-type Env struct {
-	Path    string   `toml:"path"`
-	Timeout duration `toml:"timeout"`
-}
-
-type Keyword struct {
-	Env      string `toml:"env"`
-	URL      string `toml:"url"`
-	QueryURL string `toml:"query_url"`
-}
-
 type Server struct {
-	Keywords map[string]Keyword `toml:"keyword"`
-	Envs     map[string]Env     `toml:"env"`
+	Config    Config
+	Keywords  map[string]Keyword
+	StartTime time.Time
 }
 
-type duration struct {
-	Duration time.Duration
+type Config struct {
+	Listen   string                       `toml:"listen"`
+	Keywords map[string]map[string]string `toml:"keyword"`
 }
 
-func (d *duration) UnmarshalText(text []byte) error {
-	var err error
-	d.Duration, err = time.ParseDuration(string(text))
-	return err
+type Response struct {
+	Type int
+	Body string
 }
 
-func parseQ(value string) (string, string) {
-	if value == "" {
-		return "", ""
+type Keyword interface {
+	Run(r *Request) (*Response, error)
+}
+
+type LinkKeyword struct {
+	URL      string
+	QueryURL string
+}
+
+func parse(v string) (string, string, error) {
+	if v == "" {
+		return "", "", errParse
 	}
 
 	begin := -1
-	end := len(value)
-	for i, r := range value {
+	end := len(v)
+	for i, r := range v {
 		if !unicode.IsSpace(r) {
 			if begin == -1 {
 				begin = i
@@ -76,31 +81,71 @@ func parseQ(value string) (string, string) {
 	}
 
 	if begin == -1 {
-		return "", ""
+		return "", "", errParse
 	}
 
-	return value[begin:end], strings.TrimLeftFunc(value[end:], unicode.IsSpace)
+	return v[begin:end], strings.TrimLeftFunc(v[end:], unicode.IsSpace), nil
 }
 
-func (e *Env) Run(k *Keyword, v string) (string, error) {
-	cmd := exec.Command(e.Path, v)
+func NewLinkKeyword(c map[string]string) (*LinkKeyword, error) {
+	return &LinkKeyword{c["url"], c["query_url"]}, nil
+}
 
+func (k LinkKeyword) Run(req *Request) (*Response, error) {
+	var u string
+
+	if len(req.Value) > 0 {
+		if len(k.QueryURL) == 0 {
+			return nil, errNoQueryUrl
+		}
+		u = k.QueryURL
+	} else {
+		if len(k.URL) == 0 {
+			return nil, errNoUrl
+		}
+		u = k.URL
+	}
+
+	return &Response{Redirect, strings.Replace(u, "%s", url.QueryEscape(req.Value), -1)}, nil
+}
+
+type ProgramKeyword struct {
+	Name    string
+	Timeout time.Duration
+}
+
+func NewProgramKeyword(c map[string]string) (*ProgramKeyword, error) {
+	k := ProgramKeyword{}
+
+	if name, ok := c["name"]; ok && len(name) > 0 {
+		k.Name = name
+	} else {
+		return nil, errProgramName
+	}
+
+	if timeout, ok := c["timeout"]; ok {
+		if t, err := time.ParseDuration(timeout); err != nil {
+			return nil, err
+		} else {
+			k.Timeout = t
+		}
+	} else {
+		k.Timeout = defaultTimeout
+	}
+
+	return &k, nil
+}
+
+func (r ProgramKeyword) Run(req *Request) (*Response, error) {
+	cmd := exec.Command(r.Name, req.Query, req.Key, req.Value)
 	cmd.Env = []string{}
-
-	if k.URL != "" {
-		cmd.Env = append(cmd.Env, fmt.Sprintf("URL=%s", k.URL))
-	}
-
-	if k.QueryURL != "" {
-		cmd.Env = append(cmd.Env, fmt.Sprintf("QUERY_URL=%s", k.QueryURL))
-	}
 
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
 	err := cmd.Start()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	done := make(chan error)
@@ -110,88 +155,166 @@ func (e *Env) Run(k *Keyword, v string) (string, error) {
 	}()
 
 	select {
-	case <-time.After(e.Timeout.Duration * time.Second):
+	case <-time.After(r.Timeout):
 		if err := cmd.Process.Kill(); err != nil {
 			cmd.Wait()
-			return "", err
+			return nil, err
 		}
 		<-done
-		return "", errEnvKilled
+		return nil, errEnvTimeout
 	case err := <-done:
 		if err != nil {
-			return "", err
+			return nil, err
 		}
 	}
 
-	text, err := out.ReadString('\n')
-	if err != nil && err != io.EOF {
-		return "", err
+	c, b, err := parse(out.String())
+	if err != nil {
+		return nil, err
 	}
 
-	return strings.TrimSpace(text), nil
+	var res Response
+
+	var ok bool
+	if res.Type, ok = types[c]; !ok {
+		return nil, errProgramResponse
+	}
+
+	res.Body = b
+
+	return &res, nil
 }
 
-func (k *Keyword) Run(v string) (string, error) {
-	var u string
+type Request struct {
+	Query string
+	Key   string
+	Value string
+}
 
-	if len(v) > 0 {
-		if len(k.QueryURL) == 0 {
-			return "", errNoQueryUrl
-		}
-		u = k.QueryURL
+func NewRequest(q string) (*Request, error) {
+	r := new(Request)
+
+	if err := r.Parse(q); err != nil {
+		return nil, err
+	}
+
+	return r, nil
+}
+
+func (r *Request) Parse(q string) (err error) {
+	r.Query = q
+	r.Key, r.Value, err = parse(q)
+	return
+}
+
+func (s *Server) RunError(w http.ResponseWriter, r *http.Request, err error) {
+	if err != nil {
+		log.Print(err)
+	}
+	q := r.FormValue("q")
+	http.Redirect(w, r, defaultURL+url.QueryEscape(q), 302)
+}
+
+func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
+	req, err := NewRequest(r.FormValue("q"))
+	if err != nil {
+		s.RunError(w, r, err)
+		return
+	}
+
+	k, ok := s.Keywords[req.Key]
+	if !ok {
+		s.RunError(w, r, nil)
+		return
+	}
+
+	res, err := k.Run(req)
+	if err != nil {
+		s.RunError(w, r, err)
+		return
+	}
+
+	if res.Type == Redirect {
+		http.Redirect(w, r, res.Body, 302)
 	} else {
-		if len(k.URL) == 0 {
-			return "", errNoUrl
-		}
-		u = k.URL
+		io.WriteString(w, res.Body)
 	}
-
-	return strings.Replace(u, "%s", url.QueryEscape(v), -1), nil
 }
 
-func (s *Server) Init(path string) error {
-	if _, err := toml.DecodeFile(path, &s); err != nil {
-		return err
+func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
+	p := r.URL.Path
+	if p[len(p)-1] == '/' {
+		p = p + "index.html"
 	}
+	b, found := static.Data["/static"+p]
+	if !found {
+		http.NotFound(w, r)
+		return
+	}
+	_, name := path.Split(p)
+	http.ServeContent(w, r, name, s.StartTime, bytes.NewReader(b()))
+}
 
-	for _, env := range s.Envs {
-		if env.Timeout.Duration == 0 {
-			env.Timeout.Duration = defaultTimeout
+func (s *Server) Load() error {
+	var err error
+	var keyword Keyword
+
+	s.Keywords = map[string]Keyword{}
+
+	for k, v := range s.Config.Keywords {
+		switch v["type"] {
+		case "program":
+			keyword, err = NewProgramKeyword(v)
+		case "":
+			keyword, err = NewLinkKeyword(v)
+		default:
+			log.Printf("unknown type: keyword %s (%s)", k, v["type"])
+			continue
+		}
+
+		if err == nil {
+			s.Keywords[k] = keyword
 		}
 	}
 
 	return nil
 }
 
-func (s *Server) Run(q string) (string, error) {
-	key, value := parseQ(q)
-
-	k, ok := s.Keywords[key]
-	if !ok {
-		return "", errNotFound
+func (s *Server) Init(path string) error {
+	if _, err := toml.DecodeFile(path, &s.Config); err != nil {
+		return err
 	}
 
-	if k.Env != "" {
-		e, ok := s.Envs[k.Env]
-		if !ok {
-			return "", errUnknownEnv
+	s.StartTime = time.Now()
+
+	if s.Config.Listen == "" {
+		host := os.Getenv("HOST")
+		port := os.Getenv("PORT")
+
+		if port == "" {
+			port = "8000"
 		}
 
-		return e.Run(&k, value)
+		s.Config.Listen = host + ":" + port
 	}
 
-	return k.Run(value)
+	if err := s.Load(); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (s *Server) Handle(res http.ResponseWriter, req *http.Request) {
-	q := req.FormValue("q")
+func (s *Server) Run() {
+	http.HandleFunc("/run", s.RunHandler)
 
-	u, err := s.Run(q)
-	if err != nil {
-		u = defaultURL + url.QueryEscape(q)
+	if len(static.Data) > 0 {
+		http.HandleFunc("/", s.StaticHandler)
+	} else {
+		http.Handle("/", http.FileServer(http.Dir("./static/")))
 	}
 
-	http.Redirect(res, req, u, 302)
+	log.Fatal(http.ListenAndServe(s.Config.Listen, nil))
 }
 
 func main() {
@@ -199,12 +322,10 @@ func main() {
 	flag.Parse()
 
 	s := Server{}
+
 	if err := s.Init(*path); err != nil {
-		println(err.Error())
-		os.Exit(1)
+		log.Fatal(err.Error())
 	}
 
-	m := martini.Classic()
-	m.Get("/run", s.Handle)
-	m.Run()
+	s.Run()
 }
