@@ -13,4 +13,4 @@ test:
 	go test -v
 
 clean:
-	rm static/*.go
+	rm -f keyfu static/*.go *.test
