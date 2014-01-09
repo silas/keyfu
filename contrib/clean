@@ -3,4 +3,4 @@
 set -e
 
 rm static/*.go
-cp ./misc/static.go ./static/
+cp ./contrib/static.go ./static/

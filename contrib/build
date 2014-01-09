@@ -17,7 +17,7 @@ sed -i.bak 's|go_bindata|Data|g' static/*.go
 
 rm -f static/bindata-toc.go static/*.bak
 
-cp ./misc/static.go ./static/
+cp ./contrib/static.go ./static/
 
 go build -v
 go test -v
