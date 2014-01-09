@@ -17,7 +17,11 @@ sed -i.bak 's|go_bindata|Data|g' static/*.go
 
 rm -f static/bindata-toc.go static/*.bak
 
-cp ./contrib/static.go ./static/
+cat << EOF > ./static/static.go
+package static
 
-go build -v
+var Data = make(map[string]func() []byte)
+EOF
+
+go build -tags='static' -v
 go test -v

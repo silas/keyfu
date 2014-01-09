@@ -16,7 +16,6 @@ import (
 	"unicode"
 
 	"github.com/BurntSushi/toml"
-	"github.com/silas/keyfu/static"
 )
 
 const (
@@ -28,6 +27,7 @@ var (
 	defaultTimeout = 5 * time.Second
 	defaultURL     = "https://encrypted.google.com/search?q="
 	types          = map[string]int{"redirect": Redirect, "render": Render}
+	static         = map[string]func() []byte{}
 
 	errEnvTimeout      = errors.New("keyfu: env timed out")
 	errNoUrl           = errors.New("keyfu: no url")
@@ -251,7 +251,7 @@ func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 	if p[len(p)-1] == '/' {
 		p = p + "index.html"
 	}
-	b, found := static.Data["/static"+p]
+	b, found := static["/static"+p]
 	if !found {
 		http.NotFound(w, r)
 		return
@@ -313,7 +313,7 @@ func (s *Server) Init(path string) error {
 func (s *Server) Run() {
 	http.HandleFunc("/run", s.RunHandler)
 
-	if len(static.Data) > 0 {
+	if len(static) > 0 {
 		http.HandleFunc("/", s.StaticHandler)
 	} else {
 		http.Handle("/", http.FileServer(http.Dir("./static/")))
