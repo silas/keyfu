@@ -58,3 +58,37 @@ func TestLinkKeyword(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Nil(t, k)
 }
+
+func runProgramKeyword(t *testing.T, q, name, timeout string) (*Response, error) {
+	c := map[string]string{
+		"name":    name,
+		"timeout": timeout,
+	}
+
+	k, err := NewProgramKeyword(c)
+	if assert.Nil(t, err) {
+		if req, err := NewRequest(q); assert.Nil(t, err) {
+			return k.Run(req)
+		}
+	}
+
+	return nil, err
+}
+
+func TestProgramKeyword(t *testing.T) {
+	res, err := runProgramKeyword(t, "ok", "./test/redirect.sh", "100ms")
+	if assert.Nil(t, err) {
+		assert.Equal(t, res.Body, "http://www.keyfu.com/")
+	}
+
+	res, err = runProgramKeyword(t, "ok", "./test/render.sh", "100ms")
+	if assert.Nil(t, err) {
+		assert.Equal(t, res.Body, "hello world\n")
+	}
+
+	_, err = runProgramKeyword(t, "ok", "./test/timeout.sh", "50ms")
+	assert.Equal(t, err, errProgramTimeout)
+
+	_, err = runProgramKeyword(t, "ok", "./test/exit.sh", "100ms")
+	assert.NotNil(t, err)
+}

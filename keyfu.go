@@ -29,13 +29,13 @@ var (
 	types          = map[string]int{"redirect": Redirect, "render": Render}
 	static         = map[string]func() []byte{}
 
-	errEnvTimeout      = errors.New("keyfu: env timed out")
 	errNoUrl           = errors.New("keyfu: no url")
 	errNoQueryUrl      = errors.New("keyfu: no query url")
 	errParse           = errors.New("keyfu: parse error")
 	errLinkConfig      = errors.New("keyfu: invalid link keyword")
 	errProgramName     = errors.New("keyfu: program name invalid")
 	errProgramResponse = errors.New("keyfu: program response invalid")
+	errProgramTimeout  = errors.New("keyfu: program timed out")
 )
 
 type Config struct {
@@ -156,11 +156,11 @@ func (r ProgramKeyword) Run(req *Request) (*Response, error) {
 	select {
 	case <-time.After(r.Timeout):
 		if err := cmd.Process.Kill(); err != nil {
-			cmd.Wait()
 			return nil, err
 		}
+		cmd.Wait()
 		<-done
-		return nil, errEnvTimeout
+		return nil, errProgramTimeout
 	case err := <-done:
 		if err != nil {
 			return nil, err
@@ -177,6 +177,10 @@ func (r ProgramKeyword) Run(req *Request) (*Response, error) {
 	var ok bool
 	if res.Type, ok = types[c]; !ok {
 		return nil, errProgramResponse
+	}
+
+	if res.Type == Redirect {
+		b = strings.TrimSpace(b)
 	}
 
 	res.Body = b
