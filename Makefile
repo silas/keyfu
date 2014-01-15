@@ -12,5 +12,9 @@ build: $(STATIC)
 test:
 	go test -v
 
+cover:
+	go test -coverprofile=.coverage.out
+	go tool cover -html=.coverage.out
+
 clean:
 	rm -f keyfu static/*.go *.test
