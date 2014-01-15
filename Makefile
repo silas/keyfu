@@ -24,3 +24,5 @@ cover:
 
 clean:
 	rm -f keyfu static/*.go *.test
+
+.PHONY: clean cover test
