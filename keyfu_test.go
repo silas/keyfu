@@ -92,3 +92,13 @@ func TestProgramKeyword(t *testing.T) {
 	_, err = runProgramKeyword(t, "ok", "./test/exit.sh", "100ms")
 	assert.NotNil(t, err)
 }
+
+func TestRequest(t *testing.T) {
+	q := "example one two"
+	req, err := NewRequest(q)
+	if assert.Nil(t, err) {
+		assert.Equal(t, req.Query, q)
+		assert.Equal(t, req.Key, "example")
+		assert.Equal(t, req.Value, "one two")
+	}
+}
