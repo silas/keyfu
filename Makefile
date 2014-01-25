@@ -1,6 +1,12 @@
 STATIC=$(shell find static -type f -not -name '*.go' -exec echo '{}.go' \;)
 OPTS="-tags='static' -v"
 
+setup:
+	go get
+	go get github.com/kr/godep
+	go get github.com/jteeuwen/go-bindata
+	godep restore
+
 static: $(STATIC)
 	sed -i.bak 's|package main|package static|g' static/*.go
 	sed -i.bak 's|go_bindata|Data|g' static/*.go
