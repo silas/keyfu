@@ -17,7 +17,7 @@ GitHub for the KeyFu project. You can try this and all keywords in the
 
  1. [Install Go][go-install]
 
-    Ensure the `GOPATH` environment variable is set and `$GOPATH/bin` is in your PATH.
+    Ensure the `GOPATH` environment variable is set and `$GOPATH/bin` is in your `PATH`.
 
     ``` console
     $ echo 'export GOPATH="$HOME/go"' >> ~/.bashrc
@@ -45,9 +45,9 @@ GitHub for the KeyFu project. You can try this and all keywords in the
     $ keyfu -c keyfu.conf
     ```
 
- 1. Open site http://localhost:8000/
+ 1. Open site [localhost:8000](http://localhost:8000/)
 
-    You can specify an alternative listen address by setting the `listen` option in `keyfu.conf`.
+    You can specify an alternative listen interface/port by setting the `listen` option in `keyfu.conf`.
 
     ```
     listen = "127.0.0.1:8888"
