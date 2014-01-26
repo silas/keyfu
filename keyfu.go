@@ -321,7 +321,7 @@ func (s *Server) newKeyword(k string, c int) (keyword Keyword, err error) {
 
 	switch v["type"] {
 	case "alias":
-		return s.newKeyword(v["keyword"], c+1)
+		return s.newKeyword(v["name"], c+1)
 	case "link", "":
 		return NewLinkKeyword(v)
 	case "program":
