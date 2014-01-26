@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -377,15 +378,18 @@ func (s *Server) Init(path string) error {
 			port = "8000"
 		}
 
-		s.Config.Listen = host + ":" + port
+		s.Config.Listen = net.JoinHostPort(host, port)
 	}
 
 	if s.Config.URL == "" {
-		s.Config.URL = s.Config.Listen
-		if s.Config.URL[0] == ':' {
-			s.Config.URL = "localhost" + s.Config.URL
+		host, port, err := net.SplitHostPort(s.Config.Listen)
+		if err != nil {
+			return err
 		}
-		s.Config.URL = "http://" + s.Config.URL
+		if host == "" {
+			host = "localhost"
+		}
+		s.Config.URL = fmt.Sprintf("http://%s:%s", host, port)
 	}
 
 	s.Load()
