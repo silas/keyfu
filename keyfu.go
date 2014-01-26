@@ -357,6 +357,10 @@ func (s *Server) Init(path string) error {
 		host := os.Getenv("HOST")
 		port := os.Getenv("PORT")
 
+		if host == "" {
+			host = "127.0.0.1"
+		}
+
 		if port == "" {
 			port = "8000"
 		}
