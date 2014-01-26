@@ -59,13 +59,13 @@ GitHub for the KeyFu project. You can try this and all keywords in the
 
 ## Config
 
-General
+#### General
 
 ``` toml
 listen = "127.0.0.1:8888"
 ```
 
-Link
+#### Link
 
 ``` toml
 [keyword.gh]
@@ -74,7 +74,7 @@ url = "https://github.com/"
 query_url = "https://github.com/search?q=%s"
 ```
 
-Alias
+#### Alias
 
 ``` toml
 [keyword.github]
@@ -82,12 +82,28 @@ type = "alias"
 name = "gh"
 ```
 
-Program
+#### Program
 
 ``` toml
-[keyword.smart]
+[keyword.google]
 type = "program"
-name = "/usr/local/bin/smart"
+name = "/usr/local/bin/google"
+```
+
+Programs can redirect or serve content.
+
+``` python
+#!/usr/bin/env python
+
+import sys, urllib
+
+value = sys.argv[1].strip()
+
+if value:
+    print("redirect\thttps://www.google.com/search?" +
+          urllib.urlencode({"q": value}))
+else:
+    print("serve\tI'm Feeling Hungry")
 ```
 
 ### License
