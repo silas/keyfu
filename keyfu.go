@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -48,6 +49,7 @@ var (
 // configuration file.
 type Config struct {
 	Listen   string                       `toml:"listen"`
+	URL      string                       `toml:"url"`
 	Keywords map[string]map[string]string `toml:"keyword"`
 }
 
@@ -291,6 +293,19 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (s *Server) GetFile(name string) []byte {
+	if b, ok := static[name]; ok {
+		return b()
+	}
+	b, _ := ioutil.ReadFile("." + name)
+	return b
+}
+
+func (s *Server) OpenSearchHandler(w http.ResponseWriter, r *http.Request) {
+	b := s.GetFile("/static/opensearch.xml")
+	w.Write(bytes.Replace(b, []byte("http://www.keyfu.com"), []byte(s.Config.URL), 1))
+}
+
 // StaticHandler serves embeded static content.
 func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 	p := r.URL.Path
@@ -365,6 +380,14 @@ func (s *Server) Init(path string) error {
 		s.Config.Listen = host + ":" + port
 	}
 
+	if s.Config.URL == "" {
+		s.Config.URL = s.Config.Listen
+		if s.Config.URL[0] == ':' {
+			s.Config.URL = "localhost" + s.Config.URL
+		}
+		s.Config.URL = "http://" + s.Config.URL
+	}
+
 	s.Load()
 
 	return nil
@@ -373,6 +396,7 @@ func (s *Server) Init(path string) error {
 // Run starts HTTP server.
 func (s *Server) Run() {
 	http.HandleFunc("/run", s.RunHandler)
+	http.HandleFunc("/opensearch.xml", s.OpenSearchHandler)
 
 	if len(static) > 0 {
 		http.HandleFunc("/", s.StaticHandler)

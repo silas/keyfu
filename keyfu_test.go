@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -145,6 +146,7 @@ func TestServer(t *testing.T) {
 	err := s.Init("./test/keyfu.conf")
 	if assert.Nil(t, err) {
 		assert.Equal(t, s.Config.Listen, ":8000")
+		assert.Equal(t, s.Config.URL, "http://localhost:8000")
 	}
 
 	os.Setenv("HOST", "0.0.0.0")
@@ -154,6 +156,7 @@ func TestServer(t *testing.T) {
 	err = s.Init("./test/keyfu.conf")
 	if assert.Nil(t, err) {
 		assert.Equal(t, s.Config.Listen, "0.0.0.0:1234")
+		assert.Equal(t, s.Config.URL, "http://0.0.0.0:1234")
 	}
 
 	ts := httptest.NewServer(http.HandlerFunc(s.RunHandler))
@@ -166,4 +169,24 @@ func TestServer(t *testing.T) {
 	assertRunLocation(t, ts, "github+code", "https://github.com/search?q=code")
 	assertRunLocation(t, ts, "redirect+ok", "http://www.keyfu.com/run?q=ok")
 	assertRunBody(t, ts, "serve+ok", "hello world: ok\n")
+}
+
+func TestOpenSearch(t *testing.T) {
+	s := Server{}
+	err := s.Init("./test/keyfu.conf")
+	if !assert.Nil(t, err) {
+		return
+	}
+
+	ts := httptest.NewServer(http.HandlerFunc(s.OpenSearchHandler))
+	defer ts.Close()
+
+	res, err := http.Get(ts.URL + "/opensearch.xml")
+	if assert.Nil(t, err) && assert.NotNil(t, res) {
+		defer res.Body.Close()
+		b, err := ioutil.ReadAll(res.Body)
+		if assert.Nil(t, err) {
+			assert.Equal(t, strings.Index(string(b), "http://0.0.0.0:1234"), 289)
+		}
+	}
 }
