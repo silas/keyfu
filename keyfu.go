@@ -310,7 +310,7 @@ func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) newKeyword(k string, c int) (keyword Keyword, err error) {
-	if c == aliasLimit {
+	if c > aliasLimit {
 		return nil, fmt.Errorf("keyfu: keyword alias exceeds %d limit: %s", aliasLimit, k)
 	}
 
