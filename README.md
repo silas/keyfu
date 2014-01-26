@@ -57,6 +57,36 @@ GitHub for the KeyFu project. You can try this and all keywords in the
 
  1. There are various ways start `keyfu` on boot, see the `contrib` directory for examples.
 
+## Keyword Types
+
+Link
+
+```
+[keyword.github]
+type = "link"
+url = "https://github.com/"
+query_url = "https://github.com/search?q=%s"
+```
+
+Program
+
+```
+[keyword.smart]
+type = "program"
+name = "/usr/local/bin/smart"
+```
+
+Alias
+
+```
+[keyword.gh]
+type = "alias"
+name = "github"
+```
+
+### License
+
+This work is licensed under the MIT License (see the LICENSE file).
 
 [keyfu]: http://www.keyfu.com/
 [go-install]: http://golang.org/doc/install
