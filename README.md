@@ -57,31 +57,37 @@ GitHub for the KeyFu project. You can try this and all keywords in the
 
  1. There are various ways start `keyfu` on boot, see the `contrib` directory for examples.
 
-## Keyword Types
+## Config
+
+General
+
+``` toml
+listen = "127.0.0.1:8888"
+```
 
 Link
 
-```
-[keyword.github]
+``` toml
+[keyword.gh]
 type = "link"
 url = "https://github.com/"
 query_url = "https://github.com/search?q=%s"
 ```
 
+Alias
+
+``` toml
+[keyword.github]
+type = "alias"
+name = "gh"
+```
+
 Program
 
-```
+``` toml
 [keyword.smart]
 type = "program"
 name = "/usr/local/bin/smart"
-```
-
-Alias
-
-```
-[keyword.gh]
-type = "alias"
-name = "github"
 ```
 
 ### License
