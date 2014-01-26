@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -22,6 +23,10 @@ import (
 const (
 	Redirect = iota
 	Render
+)
+
+const (
+	aliasLimit = 10
 )
 
 var (
@@ -304,31 +309,40 @@ func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeContent(w, r, name, s.StartTime, bytes.NewReader(b()))
 }
 
-// Load gets keywords from configuration and loads them into
-// server state.
-func (s *Server) Load() error {
-	var err error
-	var keyword Keyword
-
-	s.Keywords = map[string]Keyword{}
-
-	for k, v := range s.Config.Keywords {
-		switch v["type"] {
-		case "program":
-			keyword, err = NewProgramKeyword(v)
-		case "link", "":
-			keyword, err = NewLinkKeyword(v)
-		default:
-			log.Printf("unknown type: keyword %s (%s)", k, v["type"])
-			continue
-		}
-
-		if err == nil {
-			s.Keywords[k] = keyword
-		}
+func (s *Server) newKeyword(k string, c int) (keyword Keyword, err error) {
+	if c == aliasLimit {
+		return nil, fmt.Errorf("keyfu: keyword alias exceeds %d limit: %s", aliasLimit, k)
 	}
 
-	return nil
+	v, ok := s.Config.Keywords[k]
+	if !ok {
+		return nil, fmt.Errorf("keyfu: keyword unknown: %s", k)
+	}
+
+	switch v["type"] {
+	case "alias":
+		return s.newKeyword(v["keyword"], c+1)
+	case "link", "":
+		return NewLinkKeyword(v)
+	case "program":
+		return NewProgramKeyword(v)
+	default:
+		return nil, fmt.Errorf("keyword unknown type: %s (%s)", k, v["type"])
+	}
+}
+
+// Load gets keywords from configuration and loads them into
+// server state.
+func (s *Server) Load() {
+	s.Keywords = map[string]Keyword{}
+
+	for k := range s.Config.Keywords {
+		if keyword, err := s.newKeyword(k, 0); err == nil {
+			s.Keywords[k] = keyword
+		} else {
+			log.Printf(err.Error())
+		}
+	}
 }
 
 // Init reads configuration and sets up server state.
@@ -350,9 +364,7 @@ func (s *Server) Init(path string) error {
 		s.Config.Listen = host + ":" + port
 	}
 
-	if err := s.Load(); err != nil {
-		return err
-	}
+	s.Load()
 
 	return nil
 }

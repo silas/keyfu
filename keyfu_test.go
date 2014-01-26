@@ -161,7 +161,9 @@ func TestServer(t *testing.T) {
 
 	assertRunLocation(t, ts, "hello+world", "https://encrypted.google.com/search?q=hello+world")
 	assertRunLocation(t, ts, "gh", "https://github.com/")
+	assertRunLocation(t, ts, "github", "https://github.com/")
 	assertRunLocation(t, ts, "gh+code", "https://github.com/search?q=code")
+	assertRunLocation(t, ts, "github+code", "https://github.com/search?q=code")
 	assertRunLocation(t, ts, "redirect", "http://www.keyfu.com/")
 	assertRunBody(t, ts, "render", "hello world\n")
 }
