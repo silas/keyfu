@@ -297,15 +297,19 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 // StaticHandler serves embeded static content.
 func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 	p := r.URL.Path
+
 	if p[len(p)-1] == '/' {
 		p = p + "index.html"
 	}
-	b, found := static["/static"+p]
-	if !found {
+
+	b, ok := static["/static"+p]
+	if !ok {
 		http.NotFound(w, r)
 		return
 	}
+
 	_, name := path.Split(p)
+
 	http.ServeContent(w, r, name, s.StartTime, bytes.NewReader(b()))
 }
 
