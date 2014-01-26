@@ -8,18 +8,11 @@
   <key>ProgramArguments</key>
    <array>
      <string>/Users/example/go/bin/keyfu</string>
-     <string>-c=/Users/example/Library/KeyFu/keyfu.conf</string>
+     <string>-c=/Users/example/Documents/keyfu.conf</string>
    </array>
-  <key>WorkingDirectory</key>
-    <string>/Users/example/Library/KeyFu</string>
   <key>RunAtLoad</key>
     <true/>
   <key>KeepAlive</key>
     <true/>
-  <key>EnvironmentVariables</key>
-    <dict>
-      <key>PORT</key>
-      <string>9000</string>
-    </dict>
 </dict>
 </plist>
