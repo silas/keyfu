@@ -49,7 +49,7 @@ GitHub for the KeyFu project. You can try this and all keywords in the
 
     You can specify an alternative listen interface/port by setting the `listen` option in `keyfu.conf`.
 
-    ```
+    ``` toml
     listen = "127.0.0.1:8888"
     ```
 
