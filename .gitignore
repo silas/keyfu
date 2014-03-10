@@ -2,4 +2,5 @@
 *.test
 *swp
 keyfu
+static.go
 static/*.go

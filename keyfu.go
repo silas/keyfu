@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -35,7 +34,6 @@ var (
 	defaultTimeout = 5 * time.Second
 	defaultURL     = "https://encrypted.google.com/search?q="
 	types          = map[string]int{"redirect": Redirect, "serve": Serve}
-	static         = map[string]func() []byte{}
 
 	errNoURL           = errors.New("keyfu: no url")
 	errNoQueryURL      = errors.New("keyfu: no query url")
@@ -294,17 +292,12 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) GetFile(name string) []byte {
-	if b, ok := static[name]; ok {
-		return b()
-	}
-	b, _ := ioutil.ReadFile("." + name)
-	return b
-}
-
 func (s *Server) OpenSearchHandler(w http.ResponseWriter, r *http.Request) {
-	b := s.GetFile("/static/opensearch.xml")
-	w.Write(bytes.Replace(b, []byte("http://www.keyfu.com"), []byte(s.Config.URL), 1))
+	if b, err := Asset("static/opensearch.xml"); err == nil {
+		w.Write(bytes.Replace(b, []byte("http://www.keyfu.com"), []byte(s.Config.URL), 1))
+	} else {
+		http.NotFound(w, r)
+	}
 }
 
 // StaticHandler serves embeded static content.
@@ -315,15 +308,15 @@ func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 		p = p + "index.html"
 	}
 
-	b, ok := static["/static"+p]
-	if !ok {
+	b, err := Asset("static" + p)
+	if err != nil {
 		http.NotFound(w, r)
 		return
 	}
 
 	_, name := path.Split(p)
 
-	http.ServeContent(w, r, name, s.StartTime, bytes.NewReader(b()))
+	http.ServeContent(w, r, name, s.StartTime, bytes.NewReader(b))
 }
 
 func (s *Server) newKeyword(k string, c int) (keyword Keyword, err error) {
@@ -401,12 +394,7 @@ func (s *Server) Init(path string) error {
 func (s *Server) Run() {
 	http.HandleFunc("/run", s.RunHandler)
 	http.HandleFunc("/opensearch.xml", s.OpenSearchHandler)
-
-	if len(static) > 0 {
-		http.HandleFunc("/", s.StaticHandler)
-	} else {
-		http.Handle("/", http.FileServer(http.Dir("./static/")))
-	}
+	http.HandleFunc("/", s.StaticHandler)
 
 	log.Fatal(http.ListenAndServe(s.Config.Listen, nil))
 }

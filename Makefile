@@ -1,25 +1,17 @@
-STATIC=$(shell find static -type f -not -name '*.go' -exec echo '{}.go' \;)
-OPTS="-tags='static' -v"
-
 setup:
 	go get
 	go get github.com/kr/godep
-	go get github.com/jteeuwen/go-bindata
+	go get github.com/jteeuwen/go-bindata/...
 	godep restore
 
-static: $(STATIC)
-	sed -i.bak 's|package main|package static|g' static/*.go
-	sed -i.bak 's|go_bindata|Data|g' static/*.go
-	find static -type f -name '*.bak' -delete
+static.go:
+	go-bindata -o=./static.go static
 
-build: static
-	go build $(OPTS)
+build: static.go
+	go build
 
-install: static
-	go install $(OPTS)
-
-%.go: %
-	go-bindata -toc $<
+install: static.go
+	go install
 
 test:
 	go test -v
@@ -29,6 +21,6 @@ cover:
 	go tool cover -html=.coverage.out
 
 clean:
-	rm -f keyfu static/*.go *.test
+	rm -f keyfu static.go *.test
 
 .PHONY: clean cover test
