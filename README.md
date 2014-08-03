@@ -82,30 +82,6 @@ type = "alias"
 name = "gh"
 ```
 
-#### Program
-
-``` toml
-[keyword.google]
-type = "program"
-name = "/usr/local/bin/google"
-```
-
-Programs can redirect or serve content.
-
-``` python
-#!/usr/bin/env python
-
-import sys, urllib
-
-value = sys.argv[1].strip()
-
-if value:
-    print("redirect\thttps://www.google.com/search?" +
-          urllib.urlencode({"q": value}))
-else:
-    print("serve\tI'm Feeling Hungry")
-```
-
 ### License
 
 This work is licensed under the MIT License (see the LICENSE file).

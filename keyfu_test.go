@@ -65,40 +65,6 @@ func TestLinkKeyword(t *testing.T) {
 	assert.Nil(t, k)
 }
 
-func runProgramKeyword(t *testing.T, q, name, timeout string) (*Response, error) {
-	c := map[string]string{
-		"name":    name,
-		"timeout": timeout,
-	}
-
-	k, err := NewProgramKeyword(c)
-	if assert.Nil(t, err) {
-		if req, err := NewRequest(q); assert.Nil(t, err) {
-			return k.Run(req)
-		}
-	}
-
-	return nil, err
-}
-
-func TestProgramKeyword(t *testing.T) {
-	res, err := runProgramKeyword(t, "ok hello", "./test/redirect.sh", "100ms")
-	if assert.Nil(t, err) {
-		assert.Equal(t, res.Body, "http://www.keyfu.com/run?q=hello")
-	}
-
-	res, err = runProgramKeyword(t, "ok hello", "./test/serve.sh", "100ms")
-	if assert.Nil(t, err) {
-		assert.Equal(t, res.Body, "hello world: hello\n")
-	}
-
-	_, err = runProgramKeyword(t, "ok", "./test/timeout.sh", "50ms")
-	assert.Equal(t, err, errProgramTimeout)
-
-	_, err = runProgramKeyword(t, "ok", "./test/exit.sh", "100ms")
-	assert.NotNil(t, err)
-}
-
 func TestRequest(t *testing.T) {
 	q := "example one two"
 	req, err := NewRequest(q)
@@ -167,8 +133,6 @@ func TestServer(t *testing.T) {
 	assertRunLocation(t, ts, "github", "https://github.com/")
 	assertRunLocation(t, ts, "gh+code", "https://github.com/search?q=code")
 	assertRunLocation(t, ts, "github+code", "https://github.com/search?q=code")
-	assertRunLocation(t, ts, "redirect+ok", "http://www.keyfu.com/run?q=ok")
-	assertRunBody(t, ts, "serve+ok", "hello world: ok\n")
 }
 
 func TestOpenSearch(t *testing.T) {

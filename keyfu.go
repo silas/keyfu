@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
 	"path"
 	"strings"
 	"time"
@@ -35,13 +34,10 @@ var (
 	defaultURL     = "https://encrypted.google.com/search?q="
 	types          = map[string]int{"redirect": Redirect, "serve": Serve}
 
-	errNoURL           = errors.New("keyfu: no url")
-	errNoQueryURL      = errors.New("keyfu: no query url")
-	errParse           = errors.New("keyfu: parse error")
-	errLinkConfig      = errors.New("keyfu: invalid link keyword")
-	errProgramName     = errors.New("keyfu: program name invalid")
-	errProgramResponse = errors.New("keyfu: program response invalid")
-	errProgramTimeout  = errors.New("keyfu: program timed out")
+	errNoURL      = errors.New("keyfu: no url")
+	errNoQueryURL = errors.New("keyfu: no query url")
+	errParse      = errors.New("keyfu: parse error")
+	errLinkConfig = errors.New("keyfu: invalid link keyword")
 )
 
 // Config holds server configuration data, loaded from the toml
@@ -126,99 +122,6 @@ func (k LinkKeyword) Run(req *Request) (*Response, error) {
 	}
 
 	return &Response{Redirect, strings.Replace(u, "%s", url.QueryEscape(req.Value), -1)}, nil
-}
-
-// ProgramKeyword is a Keyword implementation that uses an external program
-// to evaluate a run.
-type ProgramKeyword struct {
-	Name    string
-	Timeout time.Duration
-}
-
-// NewProgramKeyword returns a ProgramKeyword from a string map parsed from
-// toml configuration file.
-func NewProgramKeyword(c map[string]string) (*ProgramKeyword, error) {
-	k := ProgramKeyword{}
-
-	if name, ok := c["name"]; ok && len(name) > 0 {
-		k.Name = name
-	} else {
-		return nil, errProgramName
-	}
-
-	if timeout, ok := c["timeout"]; ok {
-		t, err := time.ParseDuration(timeout)
-		if err != nil {
-			return nil, err
-		}
-		k.Timeout = t
-	} else {
-		k.Timeout = defaultTimeout
-	}
-
-	return &k, nil
-}
-
-// Run accepts a request, spawns a subprocess, and parses the process output
-// to create and return a response. It passes the Value of the query as the
-// first parameter to the program.
-//
-// The output should be either "redirect" or "serve" followed by a tab
-// character, followed by the redirect URL or serve content.
-//
-//   redirect\thttp://www.example.org/
-//   serve\thello world
-func (r ProgramKeyword) Run(req *Request) (*Response, error) {
-	cmd := exec.Command(r.Name, req.Value)
-	cmd.Env = []string{}
-
-	var out bytes.Buffer
-	cmd.Stdout = &out
-
-	err := cmd.Start()
-	if err != nil {
-		return nil, err
-	}
-
-	done := make(chan error)
-
-	go func() {
-		done <- cmd.Wait()
-	}()
-
-	select {
-	case <-time.After(r.Timeout):
-		if err := cmd.Process.Kill(); err != nil {
-			return nil, err
-		}
-		cmd.Wait()
-		<-done
-		return nil, errProgramTimeout
-	case err := <-done:
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	c, b, err := parse(out.String())
-	if err != nil {
-		return nil, err
-	}
-
-	var res Response
-
-	var ok bool
-	if res.Type, ok = types[c]; !ok {
-		return nil, errProgramResponse
-	}
-
-	if res.Type == Redirect {
-		b = strings.TrimSpace(b)
-	}
-
-	res.Body = b
-
-	return &res, nil
 }
 
 // Request represents the run request.
@@ -334,8 +237,6 @@ func (s *Server) newKeyword(k string, c int) (keyword Keyword, err error) {
 		return s.newKeyword(v["name"], c+1)
 	case "link", "":
 		return NewLinkKeyword(v)
-	case "program":
-		return NewProgramKeyword(v)
 	default:
 		return nil, fmt.Errorf("keyword unknown type: %s (%s)", k, v["type"])
 	}
