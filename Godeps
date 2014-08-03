@@ -1,14 +1,14 @@
 {
 	"ImportPath": "github.com/silas/keyfu",
-	"GoVersion": "go1.2",
+	"GoVersion": "go1.3",
 	"Deps": [
 		{
 			"ImportPath": "github.com/BurntSushi/toml",
-			"Rev": "2dff11163ee667d51dcc066660925a92ce138deb"
+			"Rev": "2ceedfee35ad3848e49308ab0c9a4f640cfb5fb2"
 		},
 		{
-			"ImportPath": "github.com/stretchr/testify",
-			"Rev": "4c55a02a9da3f9b9daf583332a2a82c38a4521be"
+			"ImportPath": "github.com/stretchr/testify/assert",
+			"Rev": "da775f0337260efbac0fce9764cee5bd3e8c85b8"
 		}
 	]
 }
