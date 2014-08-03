@@ -1,6 +1,7 @@
 *.out
 *.test
 *swp
+.DS_Store
 build
 keyfu
 static.go
