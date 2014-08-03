@@ -1,6 +1,7 @@
 setup:
 	go get
-	go get github.com/kr/godep
+	go get github.com/mitchellh/gox
+	go get github.com/tools/godep
 	go get github.com/jteeuwen/go-bindata/...
 	godep restore
 
@@ -9,6 +10,12 @@ static.go:
 
 build: static.go
 	go build
+
+release: static.go
+	rm -fr ./build
+	mkdir -p ./build
+	gox -osarch="darwin/amd64" -osarch="linux/amd64" -osarch="linux/386" -output="./build/keyfu_{{.OS}}_{{.Arch}}"
+	find ./build -type f -exec zip {}.zip {} \;
 
 install: static.go
 	go install

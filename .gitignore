@@ -1,6 +1,7 @@
 *.out
 *.test
 *swp
+build
 keyfu
 static.go
 static/*.go
