@@ -81,8 +81,8 @@ func TestServer(t *testing.T) {
 	defer ts.Close()
 
 	assertRunLocation(t, ts, "hello+world", "https://encrypted.google.com/search?q=hello+world")
-	assertRunLocation(t, ts, "a", "http://www.amazon.com/")
-	assertRunLocation(t, ts, "a+test", "http://www.amazon.com/s?url=search-alias%3Daps&field-keywords=test")
+	assertRunLocation(t, ts, "amazon", "http://www.amazon.com/")
+	assertRunLocation(t, ts, "amazon+test", "http://www.amazon.com/s?url=search-alias%3Daps&field-keywords=test")
 }
 
 func TestOpenSearch(t *testing.T) {

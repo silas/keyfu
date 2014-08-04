@@ -222,6 +222,8 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	s.StopRun(w, r, nil)
 }
 
 func (s *Server) OpenSearchHandler(w http.ResponseWriter, r *http.Request) {
