@@ -170,6 +170,7 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 
 	if filePath == "" {
 		s.StopRun(w, r, nil)
+		return
 	}
 
 	code, err := ioutil.ReadFile(filePath)
