@@ -7,6 +7,10 @@
 			"Rev": "2ceedfee35ad3848e49308ab0c9a4f640cfb5fb2"
 		},
 		{
+			"ImportPath": "github.com/robertkrimen/otto",
+			"Rev": "dea31a3d392779af358ec41f77a07fcc7e9d04ba"
+		},
+		{
 			"ImportPath": "github.com/stretchr/testify/assert",
 			"Rev": "da775f0337260efbac0fce9764cee5bd3e8c85b8"
 		}
