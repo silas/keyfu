@@ -32,6 +32,6 @@ setup:
 	godep restore
 
 clean:
-	rm -f keyfu static.go *.test
+	rm -f build keyfu static.go *.test
 
 .PHONY: clean cover static test
