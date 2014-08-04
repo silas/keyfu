@@ -6,7 +6,7 @@ setup:
 	godep restore
 
 static.go:
-	go-bindata -o=./static.go static
+	go-bindata -o=./static.go src static
 
 build: static.go
 	go build
