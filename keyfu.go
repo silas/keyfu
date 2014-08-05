@@ -32,7 +32,7 @@ var (
 )
 
 type Config struct {
-	Path    []string
+	Path    string
 	URL     string
 	Listen  string
 	Timeout time.Duration
@@ -70,6 +70,7 @@ type Server struct {
 	Config    Config
 	StartTime time.Time
 	vm        *otto.Otto
+	path      []string
 }
 
 // NewServer creates and sets up a new server.
@@ -96,13 +97,14 @@ func NewServer(path string) (*Server, error) {
 		s.Config.Timeout = minTimeout
 	}
 
-	for _, path := range strings.Split(os.Getenv("KEYFU_PATH"), ":") {
-		s.Config.Path = append(s.Config.Path, path)
-	}
-
-	for i, path := range s.Config.Path {
-		if s.Config.Path[i], err = filepath.Abs(path); err != nil {
-			return nil, err
+	for _, str := range []string{s.Config.Path, os.Getenv("KEYFU_PATH")} {
+		for _, path := range strings.Split(str, ":") {
+			if path == "" {
+				continue
+			}
+			if absPath, err := filepath.Abs(path); err == nil {
+				s.path = append(s.path, absPath)
+			}
 		}
 	}
 
@@ -157,7 +159,7 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 	filePath := ""
 	fileName := fmt.Sprintf("%s.js", key)
 
-	for _, dirPath := range s.Config.Path {
+	for _, dirPath := range s.path {
 		path := filepath.Join(dirPath, fileName)
 
 		stat, err := os.Stat(path)
@@ -176,7 +178,7 @@ func (s *Server) RunHandler(w http.ResponseWriter, r *http.Request) {
 	code, err := ioutil.ReadFile(filePath)
 
 	if err != nil {
-		s.StopRun(w, r, errTimeout)
+		s.StopRun(w, r, err)
 		return
 	}
 

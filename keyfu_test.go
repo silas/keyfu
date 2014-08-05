@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -80,26 +79,38 @@ func TestServer(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(s.RunHandler))
 	defer ts.Close()
 
-	assertRunLocation(t, ts, "hello+world", "https://encrypted.google.com/search?q=hello+world")
+	assertRunLocation(t, ts, "gopher+food", "https://encrypted.google.com/search?q=gopher+food")
+	assertRunLocation(t, ts, "empty+test", "https://encrypted.google.com/search?q=empty+test")
 	assertRunLocation(t, ts, "amazon", "http://www.amazon.com/")
 	assertRunLocation(t, ts, "amazon+test", "http://www.amazon.com/s?url=search-alias%3Daps&field-keywords=test")
+	assertRunBody(t, ts, "hello", "Hello, World!")
+	assertRunBody(t, ts, "hello+Jane", "Hello, Jane!")
+	assertRunBody(t, ts, "timeout", "Error: timeout")
 }
 
-func TestOpenSearch(t *testing.T) {
+func assertBodyContains(t *testing.T, handler http.HandlerFunc, path string, statusCode int, body string) {
+	ts := httptest.NewServer(http.HandlerFunc(handler))
+	defer ts.Close()
+
+	res, err := http.Get(ts.URL + path)
+	assert.Equal(t, res.StatusCode, statusCode)
+	if assert.Nil(t, err) && assert.NotNil(t, res) {
+		defer res.Body.Close()
+		b, err := ioutil.ReadAll(res.Body)
+		if assert.Nil(t, err) {
+			assert.Contains(t, string(b), body)
+		}
+	}
+}
+
+func TestStatic(t *testing.T) {
 	s, err := NewServer("./test/keyfu.conf")
 	if !assert.Nil(t, err) {
 		return
 	}
 
-	ts := httptest.NewServer(http.HandlerFunc(s.OpenSearchHandler))
-	defer ts.Close()
-
-	res, err := http.Get(ts.URL + "/opensearch.xml")
-	if assert.Nil(t, err) && assert.NotNil(t, res) {
-		defer res.Body.Close()
-		b, err := ioutil.ReadAll(res.Body)
-		if assert.Nil(t, err) {
-			assert.Equal(t, strings.Index(string(b), "http://0.0.0.0:1234"), 289)
-		}
-	}
+	assertBodyContains(t, s.OpenSearchHandler, "/opensearch.xml", 200, "http://0.0.0.0:1234")
+	assertBodyContains(t, s.StaticHandler, "/", 200, "<head>")
+	assertBodyContains(t, s.StaticHandler, "/robots.txt", 200, "User-agent")
+	assertBodyContains(t, s.StaticHandler, "/bla.html", 404, "not found")
 }
