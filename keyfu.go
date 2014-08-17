@@ -138,7 +138,7 @@ func NewServer(path string) (*Server, error) {
 
 // StopRun reports errors or redirects to default URL.
 func (s *Server) StopRun(w http.ResponseWriter, r *http.Request, err error) {
-	if err == nil {
+	if err == nil || err.Error() == "skip" {
 		http.Redirect(w, r, defaultURL+url.QueryEscape(r.FormValue("q")), 302)
 	} else {
 		io.WriteString(w, fmt.Sprintf("Error: %s", err.Error()))
