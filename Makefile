@@ -5,7 +5,7 @@ static:
 	go-bindata -o=./static.go src static
 
 save:
-	godep save -copy=false
+	godep save
 
 release: static
 	rm -fr ./build
