@@ -22,8 +22,12 @@ import (
 	"github.com/robertkrimen/otto"
 )
 
+const (
+	defaultURL    = "https://encrypted.google.com/search?q="
+	defaultConfig = "keyfu.conf"
+)
+
 var (
-	defaultURL = "https://encrypted.google.com/search?q="
 	minTimeout = time.Duration(10 * time.Millisecond)
 
 	errHalt    = errors.New("halt")
@@ -89,15 +93,26 @@ func NewServer(path string) (*Server, error) {
 
 	s.StartTime = time.Now()
 
-	if _, err = toml.DecodeFile(path, &s.Config); err != nil {
+	if _, err = os.Stat(path); err != nil {
+		if !(os.IsNotExist(err) && path == defaultConfig) {
+			return nil, err
+		}
+	} else if _, err = toml.DecodeFile(path, &s.Config); err != nil {
 		return nil, err
+	} else {
 	}
 
 	if s.Config.Timeout < minTimeout {
 		s.Config.Timeout = minTimeout
 	}
 
-	for _, str := range []string{s.Config.Path, os.Getenv("KEYFU_PATH")} {
+	paths := []string{
+		s.Config.Path,
+		os.Getenv("KEYFU_PATH"),
+		filepath.Join(os.Getenv("HOME"), ".keyfu"),
+	}
+
+	for _, str := range paths {
 		for _, path := range strings.Split(str, ":") {
 			if path == "" {
 				continue
@@ -267,7 +282,7 @@ func (s *Server) Run() {
 }
 
 func main() {
-	var path = flag.String("c", "keyfu.conf", "KeyFu configuration file")
+	var path = flag.String("c", defaultConfig, "KeyFu configuration file")
 	flag.Parse()
 
 	s, err := NewServer(*path)
