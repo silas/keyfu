@@ -7,8 +7,7 @@
     <string>com.keyfu</string>
   <key>ProgramArguments</key>
    <array>
-     <string>/Users/example/go/bin/keyfu</string>
-     <string>-c=/Users/example/Documents/keyfu.conf</string>
+     <string>/usr/local/bin/keyfu</string>
    </array>
   <key>RunAtLoad</key>
     <true/>
