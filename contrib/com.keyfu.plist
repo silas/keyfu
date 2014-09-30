@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+load:
+	cp com.keyfu.plist ~/Library/LaunchAgents/com.keyfu.plist
+	launchctl load ~/Library/LaunchAgents/com.keyfu.plist
+	launchctl start com.keyfu
+
+unload:
+	launchctl unload ~/Library/LaunchAgents/com.keyfu.plist
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PORT</key>
+		<string>9000</string>
+		<key>KEYFU_PATH</key>
+	<string>/usr/local/share/keyfu</string>
+	</dict>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>com.keyfu</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/keyfu</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>
