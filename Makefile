@@ -2,7 +2,7 @@ build: static
 	go build
 
 static:
-	go-bindata -o=./static.go src static
+	go-bindata -o=./static.go lib static
 
 save:
 	godep save

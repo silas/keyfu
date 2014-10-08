@@ -85,7 +85,7 @@ func NewServer(path string) (*Server, error) {
 
 	s.vm = otto.New()
 
-	if b, err := Asset("src/runtime.js"); err == nil {
+	if b, err := Asset("lib/runtime.js"); err == nil {
 		s.vm.Run(b)
 	} else {
 		return nil, err
@@ -113,12 +113,34 @@ func NewServer(path string) (*Server, error) {
 	}
 
 	for _, str := range paths {
+	PATH:
 		for _, path := range strings.Split(str, ":") {
 			if path == "" {
 				continue
 			}
 			if absPath, err := filepath.Abs(path); err == nil {
+				for _, p := range s.path {
+					if p == absPath {
+						continue PATH
+					}
+				}
 				s.path = append(s.path, absPath)
+			}
+		}
+	}
+
+	for _, dir := range s.path {
+		paths, err := filepath.Glob(filepath.Join(dir, "lib", "*.js"))
+
+		if err != nil {
+			return nil, err
+		}
+
+		for _, path := range paths {
+			if b, err := ioutil.ReadFile(path); err == nil {
+				s.vm.Run(b)
+			} else {
+				return nil, err
 			}
 		}
 	}
