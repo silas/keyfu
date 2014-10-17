@@ -25,7 +25,6 @@ cover:
 	go tool cover -html=.coverage.out
 
 setup:
-	go get
 	go get github.com/mitchellh/gox
 	go get github.com/tools/godep
 	go get github.com/jteeuwen/go-bindata/...
