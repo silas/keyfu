@@ -18,17 +18,16 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/BurntSushi/toml"
 	"github.com/robertkrimen/otto"
 )
 
 const (
-	defaultURL    = "https://encrypted.google.com/search?q="
-	defaultConfig = "keyfu.conf"
+	defaultPort = "8000"
+	defaultURL  = "https://encrypted.google.com/search?q="
 )
 
 var (
-	minTimeout = time.Duration(10 * time.Millisecond)
+	defaultTimeout = time.Duration(10 * time.Millisecond)
 
 	errHalt    = errors.New("halt")
 	errTimeout = errors.New("timeout")
@@ -36,10 +35,42 @@ var (
 )
 
 type Config struct {
-	Path    string
 	URL     string
 	Listen  string
 	Timeout time.Duration
+}
+
+func (c *Config) setup() error {
+	if c.Timeout <= 0 {
+		c.Timeout = defaultTimeout
+	}
+
+	if c.Listen == "" {
+		host := os.Getenv("HOST")
+		port := os.Getenv("PORT")
+
+		if port == "" {
+			port = defaultPort
+		}
+
+		c.Listen = net.JoinHostPort(host, port)
+	}
+
+	if c.URL == "" {
+		host, port, err := net.SplitHostPort(c.Listen)
+
+		if err != nil {
+			return err
+		}
+
+		if host == "" {
+			host = "127.0.0.1"
+		}
+
+		c.URL = fmt.Sprintf("http://%s:%s", host, port)
+	}
+
+	return nil
 }
 
 // parse takes a string in the form "keyword [query]" and returns the parsed
@@ -71,18 +102,19 @@ func parse(v string) (string, string, error) {
 
 // Server holds the application state.
 type Server struct {
-	Config    Config
+	Config    *Config
 	StartTime time.Time
 	vm        *otto.Otto
 	path      []string
 }
 
 // NewServer creates and sets up a new server.
-func NewServer(path string) (*Server, error) {
-	var err error
+func NewServer(c Config) (*Server, error) {
+	if err := c.setup(); err != nil {
+		return nil, err
+	}
 
-	s := Server{}
-
+	s := Server{Config: &c}
 	s.vm = otto.New()
 
 	if b, err := Asset("lib/runtime.js"); err == nil {
@@ -93,21 +125,7 @@ func NewServer(path string) (*Server, error) {
 
 	s.StartTime = time.Now()
 
-	if _, err = os.Stat(path); err != nil {
-		if !(os.IsNotExist(err) && path == defaultConfig) {
-			return nil, err
-		}
-	} else if _, err = toml.DecodeFile(path, &s.Config); err != nil {
-		return nil, err
-	} else {
-	}
-
-	if s.Config.Timeout < minTimeout {
-		s.Config.Timeout = minTimeout
-	}
-
 	paths := []string{
-		s.Config.Path,
 		os.Getenv("KEYFU_PATH"),
 		filepath.Join(os.Getenv("HOME"), ".keyfu"),
 	}
@@ -143,31 +161,6 @@ func NewServer(path string) (*Server, error) {
 				return nil, err
 			}
 		}
-	}
-
-	if s.Config.Listen == "" {
-		host := os.Getenv("HOST")
-		port := os.Getenv("PORT")
-
-		if port == "" {
-			port = "8000"
-		}
-
-		s.Config.Listen = net.JoinHostPort(host, port)
-	}
-
-	if s.Config.URL == "" {
-		host, port, err := net.SplitHostPort(s.Config.Listen)
-
-		if err != nil {
-			return nil, err
-		}
-
-		if host == "" {
-			host = "localhost"
-		}
-
-		s.Config.URL = fmt.Sprintf("http://%s:%s", host, port)
 	}
 
 	return &s, nil
@@ -304,10 +297,19 @@ func (s *Server) Run() {
 }
 
 func main() {
-	var path = flag.String("c", defaultConfig, "KeyFu configuration file")
+	var timeoutFlag = flag.Duration("timeout", defaultTimeout, "run timeout")
+	var listenFlag = flag.String("listen", ":"+defaultPort, "listen address")
+	var urlFlag = flag.String("url", "", "HTTP url")
+
 	flag.Parse()
 
-	s, err := NewServer(*path)
+	c := Config{
+		Timeout: *timeoutFlag,
+		Listen:  *listenFlag,
+		URL:     *urlFlag,
+	}
+
+	s, err := NewServer(c)
 
 	if err != nil {
 		log.Fatal(err.Error())
