@@ -46,17 +46,6 @@ func (c *Config) setup() error {
 		c.Timeout = defaultTimeout
 	}
 
-	if c.Listen == "" {
-		host := os.Getenv("HOST")
-		port := os.Getenv("PORT")
-
-		if port == "" {
-			port = defaultPort
-		}
-
-		c.Listen = net.JoinHostPort(host, port)
-	}
-
 	if c.URL == "" {
 		host, port, err := net.SplitHostPort(c.Listen)
 
@@ -293,7 +282,14 @@ func (s *Server) Run() error {
 }
 
 func main() {
-	var listen = flag.String("listen", ":"+defaultPort, "listen address")
+	host := os.Getenv("HOST")
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = defaultPort
+	}
+
+	var listen = flag.String("listen", net.JoinHostPort(host, port), "listen address")
 	var path = flag.String("path", "", "keyfu path")
 	var timeout = flag.Duration("timeout", defaultTimeout, "run timeout")
 	var url = flag.String("url", os.Getenv("KEYFU_URL"), "serve URL")
