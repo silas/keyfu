@@ -296,7 +296,7 @@ func main() {
 	var listen = flag.String("listen", ":"+defaultPort, "listen address")
 	var path = flag.String("path", "", "keyfu path")
 	var timeout = flag.Duration("timeout", defaultTimeout, "run timeout")
-	var url = flag.String("url", "", "serve URL")
+	var url = flag.String("url", os.Getenv("KEYFU_URL"), "serve URL")
 
 	flag.Parse()
 
