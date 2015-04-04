@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -58,24 +57,16 @@ func assertRunBody(t *testing.T, ts *httptest.Server, q, value string) {
 }
 
 func TestServer(t *testing.T) {
-	os.Setenv("HOST", "")
-
-	c := Config{}
-	s, err := NewServer(c)
-	if assert.Nil(t, err) {
-		assert.Equal(t, s.Config.Listen, ":8000")
-		assert.Equal(t, s.Config.URL, "http://127.0.0.1:8000")
+	c := Config{
+		Listen: ":1234",
+		URL:    "http://www.keyfu.com",
+		Path:   "./contrib/keywords",
 	}
 
-	os.Setenv("HOST", "0.0.0.0")
-	os.Setenv("PORT", "1234")
-	os.Setenv("KEYFU_PATH", "./contrib/keywords")
-
-	c = Config{}
-	s, err = NewServer(c)
+	s, err := NewServer(c)
 	if assert.Nil(t, err) {
-		assert.Equal(t, s.Config.Listen, "0.0.0.0:1234")
-		assert.Equal(t, s.Config.URL, "http://0.0.0.0:1234")
+		assert.Equal(t, s.Config.Listen, ":1234")
+		assert.Equal(t, s.Config.URL, "http://www.keyfu.com")
 	}
 
 	ts := httptest.NewServer(http.HandlerFunc(s.RunHandler))
@@ -106,7 +97,10 @@ func assertBodyContains(t *testing.T, handler http.HandlerFunc, path string, sta
 }
 
 func TestStatic(t *testing.T) {
-	c := Config{Path: "./test/keyfu.conf"}
+	c := Config{
+		Listen: "0.0.0.0:1234",
+		Path:   "./test/keyfu.conf",
+	}
 
 	s, err := NewServer(c)
 	if !assert.Nil(t, err) {
