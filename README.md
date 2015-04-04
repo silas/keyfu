@@ -13,7 +13,7 @@ $ echo 'link("https://github.com/", "https://github.com/search?q=%s");' > ~/.key
 $ ./keyfu &
 $ curl -I 'localhost:8000/run?q=github'
 HTTP/1.1 302 Found
-Location: http://www.example.org/
+Location: https://github.com/
 $ curl -I 'localhost:8000/run?q=github+keyfu'
 HTTP/1.1 302 Found
 Location: https://github.com/search?q=keyfu
