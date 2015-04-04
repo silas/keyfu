@@ -59,18 +59,20 @@ func assertRunBody(t *testing.T, ts *httptest.Server, q, value string) {
 
 func TestServer(t *testing.T) {
 	os.Setenv("HOST", "")
-	os.Setenv("PORT", "")
 
-	s, err := NewServer("./test/keyfu.conf")
+	c := Config{}
+	s, err := NewServer(c)
 	if assert.Nil(t, err) {
 		assert.Equal(t, s.Config.Listen, ":8000")
-		assert.Equal(t, s.Config.URL, "http://localhost:8000")
+		assert.Equal(t, s.Config.URL, "http://127.0.0.1:8000")
 	}
 
 	os.Setenv("HOST", "0.0.0.0")
 	os.Setenv("PORT", "1234")
+	os.Setenv("KEYFU_PATH", "./contrib/keywords")
 
-	s, err = NewServer("./test/keyfu.conf")
+	c = Config{}
+	s, err = NewServer(c)
 	if assert.Nil(t, err) {
 		assert.Equal(t, s.Config.Listen, "0.0.0.0:1234")
 		assert.Equal(t, s.Config.URL, "http://0.0.0.0:1234")
@@ -104,7 +106,9 @@ func assertBodyContains(t *testing.T, handler http.HandlerFunc, path string, sta
 }
 
 func TestStatic(t *testing.T) {
-	s, err := NewServer("./test/keyfu.conf")
+	c := Config{Path: "./test/keyfu.conf"}
+
+	s, err := NewServer(c)
 	if !assert.Nil(t, err) {
 		return
 	}

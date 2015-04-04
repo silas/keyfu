@@ -35,6 +35,7 @@ var (
 )
 
 type Config struct {
+	Path    string
 	URL     string
 	Listen  string
 	Timeout time.Duration
@@ -69,6 +70,9 @@ func (c *Config) setup() error {
 
 		c.URL = fmt.Sprintf("http://%s:%s", host, port)
 	}
+
+	c.Path += ":" + os.Getenv("KEYFU_PATH")
+	c.Path += ":" + filepath.Join(os.Getenv("HOME"), ".keyfu")
 
 	return nil
 }
@@ -123,29 +127,21 @@ func NewServer(c Config) (*Server, error) {
 		return nil, err
 	}
 
-	s.StartTime = time.Now()
-
-	paths := []string{
-		os.Getenv("KEYFU_PATH"),
-		filepath.Join(os.Getenv("HOME"), ".keyfu"),
-	}
-
-	for _, str := range paths {
-	PATH:
-		for _, path := range strings.Split(str, ":") {
-			if path == "" {
-				continue
-			}
-			if absPath, err := filepath.Abs(path); err == nil {
-				for _, p := range s.path {
-					if p == absPath {
-						continue PATH
-					}
+	for _, path := range strings.Split(s.Config.Path, ":") {
+		if path == "" {
+			continue
+		}
+		if absPath, err := filepath.Abs(path); err == nil {
+			for _, p := range s.path {
+				if p == absPath {
+					continue
 				}
-				s.path = append(s.path, absPath)
 			}
+			s.path = append(s.path, absPath)
 		}
 	}
+
+	s.StartTime = time.Now()
 
 	for _, dir := range s.path {
 		paths, err := filepath.Glob(filepath.Join(dir, "lib", "*.js"))
@@ -288,25 +284,27 @@ func (s *Server) StaticHandler(w http.ResponseWriter, r *http.Request) {
 
 // Init reads configuration and sets up server state.
 // Run starts HTTP server.
-func (s *Server) Run() {
+func (s *Server) Run() error {
 	http.HandleFunc("/run", s.RunHandler)
 	http.HandleFunc("/opensearch.xml", s.OpenSearchHandler)
 	http.HandleFunc("/", s.StaticHandler)
 
-	log.Fatal(http.ListenAndServe(s.Config.Listen, nil))
+	return http.ListenAndServe(s.Config.Listen, nil)
 }
 
 func main() {
-	var timeoutFlag = flag.Duration("timeout", defaultTimeout, "run timeout")
-	var listenFlag = flag.String("listen", ":"+defaultPort, "listen address")
-	var urlFlag = flag.String("url", "", "HTTP url")
+	var listen = flag.String("listen", ":"+defaultPort, "listen address")
+	var path = flag.String("path", "", "keyfu path")
+	var timeout = flag.Duration("timeout", defaultTimeout, "run timeout")
+	var url = flag.String("url", "", "serve URL")
 
 	flag.Parse()
 
 	c := Config{
-		Timeout: *timeoutFlag,
-		Listen:  *listenFlag,
-		URL:     *urlFlag,
+		Listen:  *listen,
+		Path:    *path,
+		Timeout: *timeout,
+		URL:     *url,
 	}
 
 	s, err := NewServer(c)
@@ -315,5 +313,5 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	s.Run()
+	log.Fatal(s.Run())
 }
